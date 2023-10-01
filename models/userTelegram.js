@@ -7,6 +7,8 @@ const userTelegram = new Schema({
   telegram_id: String,
   admin: Boolean,
   lastDayGet: Number,
+  todayCount: Number,
+  history: Array,
 });
 
 module.exports = mongoose.model('userTelegram', userTelegram);
