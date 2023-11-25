@@ -22,7 +22,8 @@ const create = async (ctx) => {
   const { admin } = await UserTelegram.findOne({ telegram_id: id });
   if (admin) {
     if (prediction) {
-      await Prediction.create({ created_by: id, text: prediction })
+      console.log(ctx);
+      // await Prediction.create({ created_by: id, text: prediction })
       ctx.reply(`=)))`)
     } else ctx.reply(`)))=`)
   } else ctx.reply(`Только для админа`)

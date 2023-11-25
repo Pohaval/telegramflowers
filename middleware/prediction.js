@@ -16,7 +16,7 @@ async function getRandomPrediction(ctx) {
   const { id: telegram_id, lastDayGet  } = ctx.update?.callback_query?.from || ctx.update?.message?.from;
   const user = await UserTelegram.findOne({ telegram_id });
 
-  const HOURS_TO_VIEW = 0.5;
+  const HOURS_TO_VIEW = 0.01;
   const SERVER_HOURS = -3;
 
   const hoursToMilliseconds = (hour) => hour * 60 * 60 * 1000;
@@ -28,12 +28,13 @@ async function getRandomPrediction(ctx) {
     ctx.reply(`Получать предсказания можно раз в пол часа. Осталось ${time}`);
     return;
   }
-  if (!isToday(new Date(user.lastDayGet)) || user.todayCount > 0) {
+  if (!isToday(new Date(user.lastDayGet)) || user.todayCount !== 0) {
     const { id, text, image_id} = await findRandomPrediction(user);
     if (!id) {
       ctx.reply('Закончились(')
       return
     }
+    // 315606425
     user.lastDayGet = Now;
     user.history.push(id);
     user.todayCount -= 1;
@@ -66,5 +67,6 @@ async function getPeredictionsNoPhoto(page = 0) {
 module.exports = {
   getRandomPrediction,
   setPhotoToPredicition,
+  findRandomPrediction,
   getPeredictionsNoPhoto,
 };
