@@ -31,6 +31,12 @@ const { WgConfig, getConfigObjectFromFile  } = require('wireguard-tools');
 
 const f = async (id) =>{
   const filePath = path.join('/root', `/newWg-${id}.conf`);
+  // const serverFilePath = path.join('/etc/wireguard', `/wg0.conf`);
+  // const serverConf = await getConfigObjectFromFile({ filePath: serverFilePath });
+  // const server = new WgConfig({
+  //   ...serverConf,
+  //   filePath,
+  // })
   const params = {
     wgInterface: {
       name: `Client ${id}`,
@@ -46,10 +52,19 @@ const f = async (id) =>{
     // ],
     filePath,
   }
+  // await Promise.all([
+  //   server.generateKeys({ preSharedKey: true }),
+  //   client.generateKeys({ preSharedKey: true })
+  // ])
+  // const serverAsPeer = server.createPeer({
+  //   allowedIps: ['10.1.1.1/32'],
+  //   preSharedKey: server.preSharedKey
+  // })
+
   const config = new WgConfig(params);
   const { publicKey, preSharedKey, privateKey } = await config.generateKeys({ preSharedKey: true })
   config.addPeer({
-    allowedIps: ['10.10.1.1/32'],
+    allowedIps: ['0.0.0.0/0','::/0'],
     publicKey: '7yIFNwTyAZT8jzJ80cmvv1El8/B3xemXciI65gjN9F4=',
     preSharedKey,
   })
