@@ -62,8 +62,12 @@ const f = async (id) =>{
     preSharedKey: server.preSharedKey
   });
   client.addPeer(serverAsPeer);
+  server.addPeer(client.createPeer({
+    allowedIps: ['10.10.1.1/32'],
+    preSharedKey: client.preSharedKey
+  }))
   await client.writeToFile();
-  await server.writeToFile();
+  // await server.writeToFile();
 
   // const config = new WgConfig(params);
   // const { publicKey, preSharedKey, privateKey } = await config.generateKeys({ preSharedKey: true })
