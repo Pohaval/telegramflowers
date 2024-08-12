@@ -34,7 +34,7 @@ const f = async (id) =>{
   const params = {
     wgInterface: {
       name: `Client ${id}`,
-      address: [`10.10.1.${id}`,`fd42:42:42::${id}/128`],
+      address: [`10.66.66.${id}/32`,`fd42:42:42::${id}/128`],
       dns: ['1.1.1.1', '1.0.0.1'],
     },
     // peers: [
