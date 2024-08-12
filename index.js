@@ -4,10 +4,30 @@ const _ = require('lodash/core');
 const express = require("express");
 const { graphqlHTTP } = require('express-graphql');
 const mongoose = require('mongoose');
+
+
 const wireguardApp = require('wireguard-rest');
 wireguardApp.listen(1234, function(){
   console.log(`Wireguard API listening on port 1234`);
 })
+
+const path = require('path');
+const { WgConfig } = require('wireguard-tools');
+
+const filePath = path.join(root, '/guardline-server.conf');
+
+const config1 = new WgConfig({
+  wgInterface: { address: ['10.10.1.1'] },
+  filePath
+})
+
+const f = async () =>{
+  const { publicKey, preSharedKey, privateKey } = await config1.generateKeys({ preSharedKey: true })
+  console.log(publicKey, preSharedKey, privateKey);
+  await config1.writeToFile()
+};
+f();
+
 // const bcrypt = require("bcryptjs");
 // const jwt = require("jsonwebtoken");
 
@@ -21,6 +41,7 @@ mongoose.connection.once('open', () => {
 });
 
 const { bot } = require("./telegram");
+const { rootCertificates } = require('tls');
 bot.start().then('open', () => {
   console.log('botStart');
 });
@@ -42,5 +63,5 @@ app.use('/graphql', graphqlHTTP({
 //   });
 // });
 
-app.listen(8080, () => { console.log('Listening on port 3000'); });
+app.listen(3000, () => { console.log('Listening on port 3000'); });
 module.exports = app;
