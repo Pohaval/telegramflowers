@@ -12,21 +12,51 @@ wireguardApp.listen(1234, function(){
 })
 
 const path = require('path');
-const { WgConfig } = require('wireguard-tools');
+const fs = require('fs');
+const { WgConfig, getConfigObjectFromFile  } = require('wireguard-tools');
 
-const filePath = path.join('/root', '/guardline-server.conf');
 
-const config1 = new WgConfig({
-  wgInterface: { address: ['10.10.1.1'] },
-  filePath
-})
+// const files = fs.readdirSync('./').filter((name) => name.includes('newWg'));
 
-const f = async () =>{
-  const { publicKey, preSharedKey, privateKey } = await config1.generateKeys({ preSharedKey: true })
+// const promises = files.map(async (name) => {
+//   const filePath = path.join(__dirname, name)
+//   const thatConfigFromFile = await getConfigObjectFromFile({ filePath });
+//   return thatConfigFromFile;
+// })
+// const f1 = async () => {
+//   const res = await Promise.all(promises);
+//   console.log(res);
+// };
+// f1();
+
+const f = async (id) =>{
+  const filePath = path.join('/root', `/newWg-${id}.conf`);
+  const params = {
+    wgInterface: {
+      name: `Client ${id}`,
+      address: [`10.10.1.${id}`,`fd42:42:42::${id}/128`],
+      dns: ['1.1.1.1', '1.0.0.1'],
+    },
+    // peers: [
+    //   {
+    //     allowedIps: ['10.10.1.1/32'],
+    //     publicKey: 'FoSq0MiHw9nuHMiJcD2vPCzQScmn1Hu0ctfKfSfhp3s=',
+    //     endpoint: ['45.132.1.20:59372'],
+    //   }
+    // ],
+    filePath,
+  }
+  const config = new WgConfig(params);
+  const { publicKey, preSharedKey, privateKey } = await config.generateKeys({ preSharedKey: true })
+  config.addPeer({
+    allowedIps: ['10.10.1.1/32'],
+    publicKey: '7yIFNwTyAZT8jzJ80cmvv1El8/B3xemXciI65gjN9F4=',
+    preSharedKey,
+  })
   console.log(publicKey, preSharedKey, privateKey);
-  await config1.writeToFile()
+  await config.writeToFile()
 };
-f();
+f(10);
 
 // const bcrypt = require("bcryptjs");
 // const jwt = require("jsonwebtoken");
