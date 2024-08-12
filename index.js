@@ -31,12 +31,12 @@ const { WgConfig, getConfigObjectFromFile  } = require('wireguard-tools');
 
 const f = async (id) =>{
   const filePath = path.join('/root', `/newWg-${id}.conf`);
-  // const serverFilePath = path.join('/etc/wireguard', `/wg0.conf`);
-  // const serverConf = await getConfigObjectFromFile({ filePath: serverFilePath });
-  // const server = new WgConfig({
-  //   ...serverConf,
-  //   filePath,
-  // })
+  const serverFilePath = path.join('/etc/wireguard', `/wg0.conf`);
+  const serverConf = await getConfigObjectFromFile({ filePath: serverFilePath });
+  const server = new WgConfig({
+    ...serverConf,
+    filePath,
+  })
   const params = {
     wgInterface: {
       name: `Client ${id}`,
@@ -51,26 +51,28 @@ const f = async (id) =>{
     //   }
     // ],
     filePath,
-  }
-  // await Promise.all([
-  //   server.generateKeys({ preSharedKey: true }),
-  //   client.generateKeys({ preSharedKey: true })
-  // ])
-  // const serverAsPeer = server.createPeer({
-  //   allowedIps: ['10.1.1.1/32'],
-  //   preSharedKey: server.preSharedKey
-  // })
+  };
+  const client = new WgConfig(params);
+  await Promise.all([
+    server.generateKeys({ preSharedKey: true }),
+    client.generateKeys({ preSharedKey: true })
+  ]);
+  const serverAsPeer = server.createPeer({
+    allowedIps: ['10.1.1.1/32'],
+    preSharedKey: server.preSharedKey
+  });
+  client.addPeer(serverAsPeer);
+  await client.writeToFile();
 
-  const config = new WgConfig(params);
-  const { publicKey, preSharedKey, privateKey } = await config.generateKeys({ preSharedKey: true })
-  config.addPeer({
-    allowedIps: ['0.0.0.0/0','::/0'],
-    endpoint: ['45.132.1.20:59372'],
-    publicKey: '7yIFNwTyAZT8jzJ80cmvv1El8/B3xemXciI65gjN9F4=',
-    preSharedKey,
-  })
-  console.log(publicKey, preSharedKey, privateKey);
-  await config.writeToFile()
+  // const config = new WgConfig(params);
+  // const { publicKey, preSharedKey, privateKey } = await config.generateKeys({ preSharedKey: true })
+  // config.addPeer({
+  //   allowedIps: ['0.0.0.0/0','::/0'],
+  //   endpoint: ['45.132.1.20:59372'],
+  //   publicKey: '7yIFNwTyAZT8jzJ80cmvv1El8/B3xemXciI65gjN9F4=',
+  //   preSharedKey,
+  // })
+  // await config.writeToFile()
 };
 f(10);
 
