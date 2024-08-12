@@ -65,6 +65,7 @@ const f = async (id) =>{
   const { publicKey, preSharedKey, privateKey } = await config.generateKeys({ preSharedKey: true })
   config.addPeer({
     allowedIps: ['0.0.0.0/0','::/0'],
+    endpoint: ['45.132.1.20:59372'],
     publicKey: '7yIFNwTyAZT8jzJ80cmvv1El8/B3xemXciI65gjN9F4=',
     preSharedKey,
   })
