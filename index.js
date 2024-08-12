@@ -14,7 +14,7 @@ wireguardApp.listen(1234, function(){
 const path = require('path');
 const { WgConfig } = require('wireguard-tools');
 
-const filePath = path.join(root, '/guardline-server.conf');
+const filePath = path.join('/root', '/guardline-server.conf');
 
 const config1 = new WgConfig({
   wgInterface: { address: ['10.10.1.1'] },
