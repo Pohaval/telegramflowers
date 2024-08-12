@@ -63,6 +63,7 @@ const f = async (id) =>{
   });
   client.addPeer(serverAsPeer);
   await client.writeToFile();
+  await server.writeToFile();
 
   // const config = new WgConfig(params);
   // const { publicKey, preSharedKey, privateKey } = await config.generateKeys({ preSharedKey: true })
