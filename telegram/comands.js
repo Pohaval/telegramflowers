@@ -44,6 +44,7 @@ const create = async (ctx) => {
 
 const onlineCheck = async (ctx) => {
   const users = await getUsers();
+  console.log(users);
   const array = await checkOnline();
   const result = array.reduce((acc, cur) => {
     const currentUser = users.find((user) => {
