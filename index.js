@@ -16,20 +16,22 @@ const fs = require('fs');
 const { WgConfig, getConfigObjectFromFile  } = require('wireguard-tools');
 
 
-// const files = fs.readdirSync('./').filter((name) => name.includes('newWg'));
+const files = fs.readdirSync('./').filter((name) => name.includes('.conf'));
 
-// const promises = files.map(async (name) => {
-//   const filePath = path.join(__dirname, name)
-//   const thatConfigFromFile = await getConfigObjectFromFile({ filePath });
-//   return thatConfigFromFile;
-// })
-// const f1 = async () => {
-//   const res = await Promise.all(promises);
-//   console.log(res);
-// };
+const promises = files.map(async (name) => {
+  const filePath = path.join(__dirname, name)
+  const thatConfigFromFile = await getConfigObjectFromFile({ filePath });
+  return thatConfigFromFile;
+})
+const f1 = async () => {
+  const res = await Promise.all(promises);
+  console.log(res);
+};
 // f1();
 
-const f = async (id) =>{
+const f = async () =>{
+  const length = files.length;
+  const id = length + 10;
   const filePath = path.join('/root', `/newWg-${id}.conf`);
   const serverFilePath = path.join('/etc/wireguard', `/wg0.conf`);
   const serverConf = await getConfigObjectFromFile({ filePath: serverFilePath });
@@ -70,7 +72,9 @@ const f = async (id) =>{
   }))
   await client.writeToFile();
   client.up();
+  await client.restart()
   await server.writeToFile();
+  await server.restart()
 
   // const config = new WgConfig(params);
   // const { publicKey, preSharedKey, privateKey } = await config.generateKeys({ preSharedKey: true })
@@ -82,7 +86,7 @@ const f = async (id) =>{
   // })
   // await config.writeToFile()
 };
-f(10);
+f();
 
 // const bcrypt = require("bcryptjs");
 // const jwt = require("jsonwebtoken");
