@@ -50,7 +50,7 @@ const onlineCheck = async (ctx) => {
       user.history.includes(cur.key);
     });
     const name = currentUser ? currentUser.name : cur.key;
-    acc.push(`${name}\r\n${cur.text}`);
+    acc.push(`${name}\r\n${cur.date}`);
     return acc;
   }, []);
   ctx.reply(`${result.join('\r\n')}`);
