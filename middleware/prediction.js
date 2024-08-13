@@ -1,13 +1,11 @@
-const { isToday } = require('date-fns');
-
 const { isToday, format } = require('date-fns');
 const UserTelegram = require('../models/userTelegram');
 const Prediction = require('../models/prediction');
 
 function todayChecker(user) {
   if (user && !isToday(new Date(user.lastDayGet))) {
-    myUser.todayCount = 3;
-    myUser.save();
+    user.todayCount = 3;
+    user.save();
   }
 };
 

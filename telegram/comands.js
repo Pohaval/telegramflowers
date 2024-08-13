@@ -1,12 +1,12 @@
 
 
 const { InputFile } = require("grammy");
-const { getRandomPrediction, todayChecker, findRandomPrediction } = require('../middleware/prediction');
+const { getRandomPrediction, todayChecker } = require('../middleware/prediction');
 const { createNewClient } = require('../middleware/vpn');
-const { checkUser, isAdmin } = require('../middleware/user');
+const { checkUser } = require('../middleware/user');
 
 const start = async (ctx, menu) => {
-  const user = checkUser(ctx.message.from)
+  const user = await checkUser(ctx.message.from)
   todayChecker(user);
   ctx.reply(`Привет ${user.name}. Нажми чтобы получить предсказание`, { reply_markup: menu })
 };
@@ -16,6 +16,12 @@ const get =  async (ctx) => getRandomPrediction(ctx);
 const create = async (ctx) => {
   const path = await createNewClient();
   ctx.replyWithDocument(new InputFile(path));
+};
+
+module.exports = {
+  get,
+  start,
+  create,
 };
 
 // const sendToAll = async (ctx) => {
@@ -49,13 +55,7 @@ const create = async (ctx) => {
 //   }
 // }
 
-module.exports = {
-  start,
-  get,
-  create,
-  sendToAll,
-  sendToOne,
-};
+
 
 // const create = async (ctx) => {
 //   const { id } = ctx.message.from;

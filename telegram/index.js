@@ -8,7 +8,7 @@ const menus = require('./menus');
 
 bot.use(menus.getTunnel);
 
-bot.command("start", (ctx) => commands.start(ctx, menu));
+bot.command("start", (ctx) => commands.start(ctx, menus.getTunnel));
 bot.command("get", commands.get);
 bot.command("create", commands.create);
 
