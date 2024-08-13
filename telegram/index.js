@@ -1,6 +1,11 @@
 const { Bot, InlineKeyboard } = require("grammy");
 const { Menu, MenuRange } = require("@grammyjs/menu");
-const { getRandomPrediction, setPhotoToPredicition, getPeredictionsNoPhoto, findRandomPrediction } = require('../middleware/prediction');
+const {
+  getRandomPrediction,
+  setPhotoToPredicition,
+  getPeredictionsNoPhoto,
+  findRandomPrediction,
+} = require('../middleware/prediction');
 
 const bot = new Bot("6245127615:AAE2IB_uUiU1kkkSzNJOn7D8PnBwBiPnL8Y");
 
@@ -31,7 +36,7 @@ bot.use(menu);
 
 bot.command("start", (ctx) => commands.start(ctx, menu));
 bot.command("get", commands.get);
-bot.command("create", commands.create);
+bot.command("create", (ctx) => commands.create(bot, ctx));
 bot.command("sendTo", async (ctx) => {
   const { id: ctxId } = ctx.message.from;
   const { admin } = await UserTelegram.findOne({ telegram_id: ctxId });

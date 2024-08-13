@@ -1,93 +1,14 @@
 
+const path = require('path');
+const fs = require('fs');
 const _ = require('lodash/core');
 
 const express = require("express");
-const { graphqlHTTP } = require('express-graphql');
 const mongoose = require('mongoose');
 
 
-const wireguardApp = require('wireguard-rest');
-wireguardApp.listen(1234, function(){
-  console.log(`Wireguard API listening on port 1234`);
-})
+const { graphqlHTTP } = require('express-graphql');
 
-const path = require('path');
-const fs = require('fs');
-const { WgConfig, getConfigObjectFromFile  } = require('wireguard-tools');
-
-
-const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
-
-// const promises = files.map(async (name) => {
-//   const filePath = path.join(__dirname, name)
-//   const thatConfigFromFile = await getConfigObjectFromFile({ filePath });
-//   return thatConfigFromFile;
-// })
-// const f1 = async () => {
-//   const res = await Promise.all(promises);
-//   console.log(res);
-// };
-// f1();
-
-const f = async () =>{
-  const length = files.length;
-  const id = length + 10;
-  const filePath = path.join('/root', `/newWg-${id}.conf`);
-  const serverFilePath = path.join('/etc/wireguard', `/wg0.conf`);
-  const serverConf = await getConfigObjectFromFile({ filePath: serverFilePath });
-  const server = new WgConfig({
-    ...serverConf,
-    filePath: serverFilePath,
-  })
-  const params = {
-    wgInterface: {
-      name: `Client ${id}`,
-      address: [`10.66.66.${id}/32`,`fd42:42:42::${id}/128`],
-      dns: ['1.1.1.1', '1.0.0.1'],
-    },
-    // peers: [
-    //   {
-    //     allowedIps: ['10.10.1.1/32'],
-    //     publicKey: 'FoSq0MiHw9nuHMiJcD2vPCzQScmn1Hu0ctfKfSfhp3s=',
-    //     endpoint: ['45.132.1.20:59372'],
-    //   }
-    // ],
-    filePath,
-  };
-  const client = new WgConfig(params);
-  await Promise.all([
-    server.generateKeys({ preSharedKey: true }),
-    client.generateKeys({ preSharedKey: true })
-  ]);
-
-  client.addPeer({
-    allowedIps: ['0.0.0.0/0','::/0'],
-    endpoint: ['45.132.1.20:59372'],
-    publicKey: '7yIFNwTyAZT8jzJ80cmvv1El8/B3xemXciI65gjN9F4=',
-    preSharedKey: client.preSharedKey
-  });
-  server.addPeer(client.createPeer({
-    allowedIps: [`10.66.66.${id}/32`,`fd42:42:42::${id}/128`],
-    preSharedKey: client.preSharedKey
-  }))
-  await client.writeToFile();
-  // client.up();
-  await client.restart();
-  await server.writeToFile();
-  await server.restart();
-  await client.down();
-
-  // const config = new WgConfig(params);
-  // const { publicKey, preSharedKey, privateKey } = await config.generateKeys({ preSharedKey: true })
-  // config.addPeer({
-  //   allowedIps: ['0.0.0.0/0','::/0'],
-  //   endpoint: ['45.132.1.20:59372'],
-  //   publicKey: '7yIFNwTyAZT8jzJ80cmvv1El8/B3xemXciI65gjN9F4=',
-  //   preSharedKey,
-  // })
-  // await config.writeToFile()
-};
-f();
 
 // const bcrypt = require("bcryptjs");
 // const jwt = require("jsonwebtoken");

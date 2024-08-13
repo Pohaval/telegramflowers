@@ -614,7 +614,7 @@
     "http-errors" "1.8.0"
     "raw-body" "^2.4.1"
 
-"express@^4.17.1", "express@^4.18.2":
+"express@^4.18.2":
   "integrity" "sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ=="
   "resolved" "https://registry.npmjs.org/express/-/express-4.18.2.tgz"
   "version" "4.18.2"
@@ -1529,25 +1529,12 @@
     "tr46" "~0.0.3"
     "webidl-conversions" "^3.0.0"
 
-"wireguard-rest@^1.0.0":
-  "integrity" "sha512-6RimpnETyeePCLGPmbMPqbOgOp9nrkm2cg0705JdP53caWxtYhqRfF4bD1H3PECh3Y9sxYB0E1IrHSDE30ktNw=="
-  "resolved" "https://registry.npmjs.org/wireguard-rest/-/wireguard-rest-1.0.0.tgz"
-  "version" "1.0.0"
-  dependencies:
-    "express" "^4.17.1"
-    "wireguard-wrapper" "^1.0.1"
-
 "wireguard-tools@^0.1.0":
   "integrity" "sha512-oBnnSB6wXGEAB1ZVPfbfpX8WlHNw7wv45r13ILX73felVnrGpMxMjFcKGAsMeRfBOGzXcW0LgAWe+T53dRcI+g=="
   "resolved" "https://registry.npmjs.org/wireguard-tools/-/wireguard-tools-0.1.0.tgz"
   "version" "0.1.0"
   dependencies:
     "lodash.mergewith" "^4.6.2"
-
-"wireguard-wrapper@^1.0.1":
-  "integrity" "sha512-/f+1yS2eSWEyxTswsNxaN+r/oYpGPBfZbBLusXOLLlgodpJWgViPZkvCtIIsj/wBUDk7qVS+1hYEuvkFNndVpg=="
-  "resolved" "https://registry.npmjs.org/wireguard-wrapper/-/wireguard-wrapper-1.0.3.tgz"
-  "version" "1.0.3"
 
 "xtend@^4.0.0":
   "integrity" "sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ=="
