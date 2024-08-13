@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const { WgConfig, getConfigObjectFromFile  } = require('wireguard-tools');
+const { WgConfig, getConfigObjectFromFile, getConfigStringFromFile  } = require('wireguard-tools');
 
 const serverFilePath = path.join('/etc/wireguard', `/wg0.conf`);
 const filePath = (id) => path.join('/root', `/newWg-${id}.conf`);
