@@ -20,7 +20,7 @@ async function getServerWgConfig(filePath) {
   return new WgConfig({ ...conf, filePath });
 };
 
-async function createClientWgConfig(length) {
+function createClientWgConfig(length) {
   return new WgConfig({
     wgInterface: {
       name: `Client ${length}`,
