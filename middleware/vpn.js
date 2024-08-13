@@ -63,18 +63,16 @@ async function createNewClient(name) {
 };
 
 async function checkOnline() {
-  const config = await Wg.show('wg0');
-  console.log(config);
-  return 'test';
-//   return config.wg0.peers.filter(([_, {latestHandshake}]) => latestHandshake > 0).map(([key, peer]) => {
-//     const { name, latestHandshake, persistentKeepalive } = peer;
-//     const date = new Date(latestHandshake * 1000);
-//     console.log(peer)
-//     return `${name || key}
-// ${format(date, 'dd.MMMM.yyyy HH:mm')},
+  const config = await Wg.show();
+  return Object.entries(config.wg0.peers).filter(([_, {latestHandshake}]) => latestHandshake > 0).map(([key, peer]) => {
+    const { name, latestHandshake, persistentKeepalive } = peer;
+    const date = new Date(latestHandshake * 1000);
+    console.log(peer)
+    return `${name || key}
+${format(date, 'dd.MMMM.yyyy HH:mm')},
 
-// `;
-//   }).join('');
+`;
+  }).join('');
 
   // const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
   // const promises = files.map(async (name) => {
