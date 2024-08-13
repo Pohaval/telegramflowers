@@ -31,7 +31,7 @@ function createClientWgConfig(length) {
   });
 };
 
-async function createNewClient(ctx) {
+async function createNewClient() {
   const length = getConfLength()
 
   const server = await getServerWgConfig(serverFilePath)
@@ -58,7 +58,7 @@ async function createNewClient(ctx) {
     client.down(),
   ]);
 
-  return filePath;
+  return filePath(length);
 };
 
 // const promises = files.map(async (name) => {
