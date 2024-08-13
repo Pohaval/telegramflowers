@@ -5,10 +5,31 @@ const { getRandomPrediction, todayChecker } = require('../middleware/prediction'
 const { createNewClient } = require('../middleware/vpn');
 const { checkUser } = require('../middleware/user');
 
+
 const start = async (ctx, menu) => {
   const user = await checkUser(ctx.message.from)
   todayChecker(user);
-  ctx.reply(`Привет ${user.name}. Нажми чтобы получить предсказание`, { reply_markup: menu })
+  ctx.reply(
+    `Привет ${user.name}.
+
+<b>Инструкция по установке:</b>
+
+1. Скачайте приложение Wireguard
+  Android:  <a href="https://play.google.com/store/apps/details?id=com.wireguard.android">Play market</a>
+  Other:  <a href="https://www.wireguard.com/install/">Wireguard official</a>
+
+2. Получи файл конфигурации
+
+3. Импортируй конфигурацию в приложении
+
+4. Включай и наслаждайся 😉
+`,
+    {
+      parse_mode: "HTML",
+      reply_markup: menu,
+      link_preview_options: { is_disabled: true }
+    }
+  )
 };
 
 const get =  async (ctx) => getRandomPrediction(ctx);

@@ -2,7 +2,7 @@ const { Menu } = require("@grammyjs/menu");
 const commands = require('./comands');
 
 const getTunnel = new Menu("my-menu-identifier").text(
-  "Получить доступ",
+  "Получить конфигурацию",
   commands.create,
 );
 
