@@ -1544,7 +1544,7 @@
   dependencies:
     "lodash.mergewith" "^4.6.2"
 
-"wireguard-wrapper@^1.0.1":
+"wireguard-wrapper@^1.0.1", "wireguard-wrapper@^1.0.3":
   "integrity" "sha512-/f+1yS2eSWEyxTswsNxaN+r/oYpGPBfZbBLusXOLLlgodpJWgViPZkvCtIIsj/wBUDk7qVS+1hYEuvkFNndVpg=="
   "resolved" "https://registry.npmjs.org/wireguard-wrapper/-/wireguard-wrapper-1.0.3.tgz"
   "version" "1.0.3"

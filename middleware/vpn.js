@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const { Wg } = require('wireguard-wrapper');
 const { WgConfig, getConfigObjectFromFile  } = require('wireguard-tools');
 
 const serverFilePath = path.join('/etc/wireguard', `/wg0.conf`);
@@ -61,8 +62,9 @@ async function createNewClient(name) {
 };
 
 async function checkOnline() {
-  const config = await getConfigObjectFromFile({ filePath: serverFilePath });
-  return config.peers.map((peer) => peer)
+  const config = await Wg.show();
+  console.log(config);
+  return config;
   // const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
   // const promises = files.map(async (name) => {
   //   const filePath = path.join('/root', name)
