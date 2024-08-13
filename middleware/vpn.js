@@ -61,6 +61,7 @@ async function createNewClient() {
 
 async function checkOnline() {
   const config = await getConfigObjectFromFile({ filePath: serverFilePath });
+  console.log(config.peers);
   return config.peers.map((peer) => peer)
   // const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
   // const promises = files.map(async (name) => {
