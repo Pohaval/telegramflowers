@@ -65,7 +65,7 @@ const f = async (id) =>{
     preSharedKey: server.preSharedKey,
   });
   server.addPeer(client.createPeer({
-    allowedIps: [`10.66.66.${id}/32`],
+    allowedIps: [`10.66.66.${id}/32`,`fd42:42:42::${id}/128`],
     preSharedKey: client.preSharedKey
   }))
   await client.writeToFile();
