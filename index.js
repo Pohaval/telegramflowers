@@ -16,7 +16,7 @@ const fs = require('fs');
 const { WgConfig, getConfigObjectFromFile  } = require('wireguard-tools');
 
 
-const files = fs.readdirSync('./').filter((name) => name.includes('.conf'));
+const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
 
 const promises = files.map(async (name) => {
   const filePath = path.join(__dirname, name)
