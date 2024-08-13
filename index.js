@@ -71,7 +71,7 @@ const f = async () =>{
     preSharedKey: client.preSharedKey
   }))
   await client.writeToFile();
-  client.up();
+  // client.up();
   await client.restart()
   await server.writeToFile();
   await server.restart()
