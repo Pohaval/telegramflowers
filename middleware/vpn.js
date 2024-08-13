@@ -50,13 +50,11 @@ async function createNewClient() {
     }),
   );
 
-  await Promise.all([
-    client.writeToFile(),
-    client.restart(),
-    server.writeToFile(),
-    server.restart(),
-    client.down(),
-  ]);
+  await client.writeToFile();
+  await client.restart();
+  await server.writeToFile();
+  await server.restart();
+  await client.down();
 
   return filePath(length);
 };
