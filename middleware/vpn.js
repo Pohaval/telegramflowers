@@ -52,9 +52,9 @@ async function createNewClient() {
 
   await Promise.all([
     client.writeToFile(),
+    client.restart(),
     server.writeToFile(),
     server.restart(),
-    client.restart(),
     client.down(),
   ]);
 
