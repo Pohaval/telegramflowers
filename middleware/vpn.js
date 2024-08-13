@@ -31,7 +31,7 @@ function createClientWgConfig(length) {
   });
 };
 
-async function createNewClient() {
+async function createNewClient(name) {
   const length = getConfLength()
 
   const server = await getServerWgConfig(serverFilePath)
@@ -45,6 +45,7 @@ async function createNewClient() {
   });
   server.addPeer(
     client.createPeer({
+      name: `Client ${name}`,
       allowedIps: [`10.66.66.${length}/32`,`fd42:42:42::${length}/128`],
       preSharedKey,
     }),
@@ -61,7 +62,6 @@ async function createNewClient() {
 
 async function checkOnline() {
   const config = await getConfigObjectFromFile({ filePath: serverFilePath });
-  console.log(config.peers);
   return config.peers.map((peer) => peer)
   // const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
   // const promises = files.map(async (name) => {

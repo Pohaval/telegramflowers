@@ -1,4 +1,9 @@
 const { Bot } = require("grammy");
+const app = require('wireguard-rest');
+
+app.listen(1234, function(){
+    console.log(`Wireguard API listening on port 1234`);
+});
 
 const bot = new Bot("6245127615:AAE2IB_uUiU1kkkSzNJOn7D8PnBwBiPnL8Y");
 

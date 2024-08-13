@@ -35,7 +35,8 @@ const start = async (ctx, menu) => {
 const get =  async (ctx) => getRandomPrediction(ctx);
 
 const create = async (ctx) => {
-  const path = await createNewClient();
+  const user = await checkUser(ctx.message.from)
+  const path = await createNewClient(user.name);
   ctx.replyWithDocument(new InputFile(path));
 };
 

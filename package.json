@@ -32,6 +32,7 @@
     "multer": "^1.4.5-lts.1",
     "pixi.js": "^7.3.2",
     "vue3-pixi": "^0.8.3",
+    "wireguard-rest": "^1.0.0",
     "wireguard-tools": "^0.1.0"
   },
   "devDependencies": {
