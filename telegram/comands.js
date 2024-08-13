@@ -16,7 +16,7 @@ const start = async (ctx, menu) => {
 
 1. Скачай приложение Wireguard
   Android:  <a href="https://play.google.com/store/apps/details?id=com.wireguard.android">Play market</a>
-  iOS:  <a href="https://itunes.apple.com/us/app/wireguard/id1441195209?ls=1&mt=8">Play market</a>
+  iOS:  <a href="https://itunes.apple.com/us/app/wireguard/id1441195209?ls=1&mt=8">App store</a>
   Other:  <a href="https://www.wireguard.com/install/">Wireguard official</a>
 
 2. Получи и скачай файл конфигурации
