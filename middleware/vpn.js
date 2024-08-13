@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { WgConfig, getConfigObjectFromFile  } = require('wireguard-tools');
 
 

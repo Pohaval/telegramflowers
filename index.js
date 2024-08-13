@@ -1,6 +1,5 @@
 
 const path = require('path');
-const fs = require('fs');
 const _ = require('lodash/core');
 
 const express = require("express");
