@@ -72,9 +72,11 @@ const f = async () =>{
   }))
   await client.writeToFile();
   // client.up();
-  await client.restart()
+  await client.restart();
   await server.writeToFile();
-  await server.restart()
+  await server.restart();
+  await server.down();
+  await client.down();
 
   // const config = new WgConfig(params);
   // const { publicKey, preSharedKey, privateKey } = await config.generateKeys({ preSharedKey: true })
