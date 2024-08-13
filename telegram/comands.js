@@ -52,7 +52,7 @@ const onlineCheck = async (ctx) => {
     const currentUser = users.find((user) => {
       user.history.includes(cur.key);
     });
-    if ()
+    // if ()
     const name = currentUser ? currentUser.name : cur.key;
     acc.push(`${name}\r\n${cur.date}`);
     return acc;
