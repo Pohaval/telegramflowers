@@ -11,7 +11,12 @@ async function isAdmin(telegram_id) {
   return admin;
 }
 
+async function getUsers() {
+  return await UserTelegram.find();
+}
+
 module.exports = {
   checkUser,
+  getUsers,
   isAdmin,
 }

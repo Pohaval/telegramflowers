@@ -59,7 +59,7 @@ async function createNewClient(name) {
   await server.restart();
   await client.down();
 
-  return filePath(length);
+  return { path: filePath(length), key: server.publicKey };
 };
 
 async function checkOnline() {
@@ -68,11 +68,11 @@ async function checkOnline() {
     const { name, latestHandshake, persistentKeepalive } = peer;
     const date = new Date(latestHandshake * 1000);
     console.log(peer)
-    return `${name || key}
-${format(date, 'dd.MMMM.yyyy HH:mm')},
-
-`;
-  }).join('');
+    return {
+      key,
+      date: format(date, 'dd.MMMM.yyyy HH:mm'),
+    };
+  });
 
   // const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
   // const promises = files.map(async (name) => {

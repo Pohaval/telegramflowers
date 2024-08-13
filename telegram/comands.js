@@ -3,7 +3,7 @@
 const { InputFile } = require("grammy");
 const { getRandomPrediction, todayChecker } = require('../middleware/prediction');
 const { createNewClient, checkOnline } = require('../middleware/vpn');
-const { checkUser } = require('../middleware/user');
+const { checkUser, getUsers } = require('../middleware/user');
 
 
 const start = async (ctx, menu) => {
@@ -36,13 +36,24 @@ const get =  async (ctx) => getRandomPrediction(ctx);
 
 const create = async (ctx) => {
   const user = await checkUser(ctx.message.from)
-  const path = await createNewClient(user.name);
+  const { path, key } = await createNewClient(user.name);
+  user.history.push(key);
+  user.save();
   ctx.replyWithDocument(new InputFile(path));
 };
 
 const onlineCheck = async (ctx) => {
+  const users = await getUsers();
   const array = await checkOnline();
-  ctx.reply(`${array}`);
+  const result = array.reduce((acc, cur) => {
+    const currentUser = users.find((user) => {
+      user.history.includes(cur.key);
+    });
+    const name = currentUser ? currentUser.name : cur.key;
+    acc.push(`${name}\r\n${cur.text}`);
+    return acc;
+  }, []);
+  ctx.reply(`${result.join('\r\n')}`);
 };
 
 module.exports = {
