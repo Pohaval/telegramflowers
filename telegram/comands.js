@@ -36,9 +36,7 @@ const get =  async (ctx) => getRandomPrediction(ctx);
 
 const create = async (ctx) => {
   const user = await checkUser(ctx.message.from)
-  console.log(user);
   const { path, key } = await createNewClient(user.name);
-  console.log(key);
   user.history.push(key);
   user.save();
   ctx.replyWithDocument(new InputFile(path));
@@ -48,11 +46,9 @@ const onlineCheck = async (ctx) => {
   const users = await getUsers();
   const array = await checkOnline();
   const result = array.reduce((acc, cur) => {
-    console.log(cur.key);
     const currentUser = users.find((user) => {
-      user.history.includes(cur.key);
+      user.history.includes(Number(cur.key));
     });
-    // if ()
     const name = currentUser ? currentUser.name : cur.key;
     acc.push(`${name}\r\n${cur.date}`);
     return acc;
