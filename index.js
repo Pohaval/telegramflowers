@@ -67,7 +67,7 @@ const f = async (id) =>{
     preSharedKey: client.preSharedKey
   }))
   await client.writeToFile();
-  // await server.writeToFile();
+  await server.writeToFile();
 
   // const config = new WgConfig(params);
   // const { publicKey, preSharedKey, privateKey } = await config.generateKeys({ preSharedKey: true })
