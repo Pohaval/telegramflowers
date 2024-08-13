@@ -35,7 +35,7 @@ const f = async (id) =>{
   const serverConf = await getConfigObjectFromFile({ filePath: serverFilePath });
   const server = new WgConfig({
     ...serverConf,
-    serverFilePath,
+    filePath: serverFilePath,
   })
   const params = {
     wgInterface: {
