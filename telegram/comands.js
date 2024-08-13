@@ -47,6 +47,7 @@ const onlineCheck = async (ctx) => {
   const array = await checkOnline();
   const result = array.reduce((acc, cur) => {
     const currentUser = users.find((user) => {
+      if (user.history.length) console.log(user);
       user.history.includes(Number(cur.key));
     });
     const name = currentUser ? currentUser.name : cur.key;

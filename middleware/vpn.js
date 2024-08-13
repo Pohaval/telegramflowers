@@ -67,7 +67,6 @@ async function checkOnline() {
   return Object.entries(config.wg0.peers).filter(([_, {latestHandshake}]) => latestHandshake > 0).map(([key, peer]) => {
     const { name, latestHandshake, persistentKeepalive } = peer;
     const date = new Date(latestHandshake * 1000);
-    console.log(peer)
     return {
       key,
       date: format(date, 'dd.MMMM.yyyy HH:mm'),
