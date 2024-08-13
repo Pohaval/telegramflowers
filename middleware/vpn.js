@@ -63,8 +63,9 @@ async function createNewClient(name) {
 
 async function checkOnline() {
   const config = await Wg.show();
-  console.log(config);
+  console.log(config[0]);
   return config;
+
   // const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
   // const promises = files.map(async (name) => {
   //   const filePath = path.join('/root', name)
