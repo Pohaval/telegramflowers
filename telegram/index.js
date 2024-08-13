@@ -38,7 +38,7 @@ bot.command("start", (ctx) => commands.start(ctx, menu));
 bot.command("get", commands.get);
 bot.command("create", async (ctx) => {
   const path = await commands.create(ctx);
-  ctx.api.replyWithDocument(new InputFile(filePath));
+  ctx.api.replyWithDocument(new InputFile(path));
 
 });
 
