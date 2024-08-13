@@ -37,8 +37,8 @@ bot.use(menu);
 bot.command("start", (ctx) => commands.start(ctx, menu));
 bot.command("get", commands.get);
 bot.command("create", async (ctx) => {
-  const name = await commands.create(ctx);
-  bot.api.sendDocument(ctx.chat.id, name);
+  const path = await commands.create(ctx);
+  bot.api.sendDocument(ctx.chat.id, path);
 });
 
 bot.command("sendTo", async (ctx) => {

@@ -50,7 +50,7 @@ async function createNewClient(ctx) {
   await server.writeToFile();
   await server.restart();
   await client.down();
-  return `/root/newWg-${id}.conf`;
+  return filePath;
 };
 
 module.exports = {
