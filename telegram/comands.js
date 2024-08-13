@@ -46,17 +46,18 @@ const create = async (ctx) => {
 
 const onlineCheck = async (ctx) => {
   const users = await getUsers();
-  console.log(users);
   const array = await checkOnline();
   const result = array.reduce((acc, cur) => {
+    console.log(cur.key);
     const currentUser = users.find((user) => {
       user.history.includes(cur.key);
     });
+    if ()
     const name = currentUser ? currentUser.name : cur.key;
     acc.push(`${name}\r\n${cur.date}`);
     return acc;
   }, []);
-  ctx.reply(`${result.join('\r\n\r\n')}`);
+  if (result.length) ctx.reply(`${result.join('\r\n\r\n')}`);
 };
 
 module.exports = {
