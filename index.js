@@ -62,7 +62,7 @@ const f = async (id) =>{
     allowedIps: ['0.0.0.0/0','::/0'],
     endpoint: ['45.132.1.20:59372'],
     publicKey: '7yIFNwTyAZT8jzJ80cmvv1El8/B3xemXciI65gjN9F4=',
-    preSharedKey: server.preSharedKey,
+    preSharedKey: client.preSharedKey
   });
   server.addPeer(client.createPeer({
     allowedIps: [`10.66.66.${id}/32`,`fd42:42:42::${id}/128`],
