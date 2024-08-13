@@ -1,4 +1,4 @@
-const { Bot, InlineKeyboard } = require("grammy");
+const { Bot, InlineKeyboard, InputFile } = require("grammy");
 const { Menu, MenuRange } = require("@grammyjs/menu");
 const {
   getRandomPrediction,
@@ -36,7 +36,11 @@ bot.use(menu);
 
 bot.command("start", (ctx) => commands.start(ctx, menu));
 bot.command("get", commands.get);
-bot.command("create", commands.create);
+bot.command("create", async (ctx) => {
+  const path = await commands.create(ctx);
+  ctx.api.replyWithDocument(new InputFile(filePath));
+
+});
 
 bot.command("sendTo", async (ctx) => {
   const { id: ctxId } = ctx.message.from;

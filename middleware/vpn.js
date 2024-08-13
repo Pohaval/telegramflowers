@@ -54,7 +54,7 @@ async function createNewClient(ctx) {
   await client.down();
   // const buffer = fs.readFileSync(filePath);
   // const blob = new Blob([buffer]);
-  ctx.api.replyWithDocument(new InputFile(filePath));
+  return filePath;
 };
 
 module.exports = {
