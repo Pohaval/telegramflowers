@@ -38,8 +38,9 @@ bot.command("start", (ctx) => commands.start(ctx, menu));
 bot.command("get", commands.get);
 bot.command("create", async (ctx) => {
   const name = await commands.create(ctx);
-  bot.sendDocument(ctx.chat.id, name);
+  bot.api.sendDocument(ctx.chat.id, name);
 });
+
 bot.command("sendTo", async (ctx) => {
   const { id: ctxId } = ctx.message.from;
   const { admin } = await UserTelegram.findOne({ telegram_id: ctxId });
