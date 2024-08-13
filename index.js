@@ -75,7 +75,6 @@ const f = async () =>{
   await client.restart();
   await server.writeToFile();
   await server.restart();
-  await server.down();
   await client.down();
 
   // const config = new WgConfig(params);
