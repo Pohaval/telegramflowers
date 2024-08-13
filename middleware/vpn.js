@@ -34,7 +34,7 @@ function createClientWgConfig(length) {
 async function createNewClient(ctx) {
   const length = getConfLength()
 
-  const server = getServerWgConfig(serverFilePath)
+  const server = await getServerWgConfig(serverFilePath)
   const client = createClientWgConfig(length)
 
   const { preSharedKey } = await client.generateKeys({ preSharedKey: true });
