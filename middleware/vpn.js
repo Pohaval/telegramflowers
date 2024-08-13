@@ -67,7 +67,9 @@ async function checkOnline() {
   return Object.entries(config.wg0.peers).map(( [key, { name, latestHandshake, persistentKeepalive }]) => {
     const date = new Date(latestHandshake);
     return `User ${name || key}
-date: ${format(date, 'dd.MMMM.yyyy HH:mm')}, o: ${persistentKeepalive}`;
+date: ${format(date, 'dd.MMMM.yyyy HH:mm')}, o: ${persistentKeepalive}
+
+`;
   });
 
   // const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
