@@ -63,7 +63,7 @@ async function checkOnline() {
   const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
   const promises = files.map(async (name) => {
     const filePath = path.join('/root', name)
-    const thatConfigFromFile = await getConfigObjectFromFile({ filePath });
+    const thatConfigFromFile = await getConfigStringFromFile({ filePath });
     return thatConfigFromFile;
   })
   return Promise.all(promises);
