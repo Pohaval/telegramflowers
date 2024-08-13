@@ -65,12 +65,11 @@ async function createNewClient(name) {
 async function checkOnline() {
   const config = await Wg.show();
   return Object.entries(config.wg0.peers).map(( [key, { name, latestHandshake, persistentKeepalive }]) => {
-    const date = new Date(latestHandshake);
+    const date = new Date(latestHandshake * 1000);
     return `User ${name || key}
 date: ${format(date, 'dd.MMMM.yyyy HH:mm')}, o: ${persistentKeepalive}
-
 `;
-  });
+  }).join('');
 
   // const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
   // const promises = files.map(async (name) => {
