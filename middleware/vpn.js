@@ -64,9 +64,9 @@ async function createNewClient(name) {
 
 async function checkOnline() {
   const config = await Wg.show();
-  return Object.entries(config.wg0.peers).filter(([_, {latestHandshake}]) => latestHandshake > 0).map(( [key, peer]) => {
-    const date = new Date(latestHandshake * 1000);
+  return Object.entries(config.wg0.peers).filter(([_, {latestHandshake}]) => latestHandshake > 0).map(([key, peer]) => {
     const { name, latestHandshake, persistentKeepalive } = peer;
+    const date = new Date(latestHandshake * 1000);
     console.log(peer)
     return `User ${name || key}
 date: ${format(date, 'dd.MMMM.yyyy HH:mm')},
