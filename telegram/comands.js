@@ -36,7 +36,7 @@ const get =  async (ctx) => getRandomPrediction(ctx);
 
 const create = async (ctx) => {
   // console.log(ctx);
-  const user = await checkUser(ctx.message.from || ctx.update.from)
+  const user = await checkUser(ctx?.message?.from || ctx?.update?.from)
   const { path, key } = await createNewClient(user.name);
   user.history.push(key);
   user.save();
