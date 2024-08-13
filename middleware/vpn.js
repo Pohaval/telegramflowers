@@ -59,12 +59,19 @@ async function createNewClient() {
   return filePath(length);
 };
 
-// const promises = files.map(async (name) => {
-//   const filePath = path.join(__dirname, name)
-//   const thatConfigFromFile = await getConfigObjectFromFile({ filePath });
-//   return thatConfigFromFile;
-// })
+async function checkOnline() {
+  const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
+  const promises = files.map(async (name) => {
+    const filePath = path.join(__dirname, name)
+    const thatConfigFromFile = await getConfigObjectFromFile({ filePath });
+    return thatConfigFromFile;
+  })
+  return Promise.all(promises);
+}
+
+
 
 module.exports = {
   createNewClient,
+  checkOnline,
 };

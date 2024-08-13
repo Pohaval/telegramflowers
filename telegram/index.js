@@ -11,6 +11,7 @@ bot.use(menus.getTunnel);
 bot.command("start", (ctx) => commands.start(ctx, menus.getTunnel));
 bot.command("get", commands.get);
 bot.command("create", commands.create);
+bot.command("checkOnline", commands.onlineCheck);
 
 
 bot.api.setMyCommands([
