@@ -1,5 +1,7 @@
 const path = require('path');
 const fs = require('fs');
+const { Blob } = require('buffer');
+
 const { WgConfig, getConfigObjectFromFile  } = require('wireguard-tools');
 
 
@@ -50,7 +52,9 @@ async function createNewClient(ctx) {
   await server.writeToFile();
   await server.restart();
   await client.down();
-  return filePath;
+  const buffer = fs.readFileSync(filePath);
+  const blob = new Blob([buffer]);
+  return blob;
 };
 
 module.exports = {
