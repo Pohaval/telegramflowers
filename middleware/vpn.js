@@ -22,10 +22,10 @@ async function getServerWgConfig(filePath) {
   return new WgConfig({ ...conf, filePath });
 };
 
-function createClientWgConfig(length) {
+function createClientWgConfig(length, name) {
   return new WgConfig({
     wgInterface: {
-      name: `Client ${length}`,
+      name: `Client ${name}`,
       dns: ['1.1.1.1', '1.0.0.1'],
       address: [`10.66.66.${length}/32`,`fd42:42:42::${length}/128`],
     },
@@ -37,7 +37,7 @@ async function createNewClient(name) {
   const length = getConfLength()
 
   const server = await getServerWgConfig(serverFilePath)
-  const client = createClientWgConfig(length)
+  const client = createClientWgConfig(length, name)
 
   const { preSharedKey } = await client.generateKeys({ preSharedKey: true });
 
