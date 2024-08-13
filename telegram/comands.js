@@ -16,7 +16,7 @@ const start = async (ctx, menu) => {
   ctx.reply(`Привет ${name}. Нажми чтобы получить предсказание`, { reply_markup: menu })
 };
 const get =  async (ctx) => getRandomPrediction(ctx);
-const create =  async (bot, ctx) => createNewClient(bot, ctx);
+const create =  async (ctx) => createNewClient(ctx);
 // const create = async (ctx) => {
 //   const { id } = ctx.message.from;
 //   const { text } = ctx.message;

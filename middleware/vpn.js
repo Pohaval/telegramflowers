@@ -10,7 +10,7 @@ const { WgConfig, getConfigObjectFromFile  } = require('wireguard-tools');
 //   return thatConfigFromFile;
 // })
 
-async function createNewClient(bot, ctx) {
+async function createNewClient(ctx) {
   const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
   const length = files.length;
   const id = length + 10;
@@ -50,8 +50,7 @@ async function createNewClient(bot, ctx) {
   await server.writeToFile();
   await server.restart();
   await client.down();
-  console.log(ctx);
-  bot.sendDocument(ctx.chat.id, `/root/newWg-${id}.conf`)
+  return `/root/newWg-${id}.conf`;
 };
 
 module.exports = {
