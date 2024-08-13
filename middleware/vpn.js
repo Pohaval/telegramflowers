@@ -39,7 +39,7 @@ async function createNewClient(name) {
   const server = await getServerWgConfig(serverFilePath)
   const client = createClientWgConfig(length, name)
 
-  const { preSharedKey } = await client.generateKeys({ preSharedKey: true });
+  const { preSharedKey, publicKey } = await client.generateKeys({ preSharedKey: true });
 
   client.addPeer({
     ...clientPeer,
@@ -59,7 +59,7 @@ async function createNewClient(name) {
   await server.restart();
   await client.down();
 
-  return { path: filePath(length), key: server.publicKey };
+  return { path: filePath(length), key: publicKey };
 };
 
 async function checkOnline() {
