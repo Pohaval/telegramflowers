@@ -53,7 +53,7 @@ const onlineCheck = async (ctx) => {
     acc.push(`${name}\r\n${cur.date}`);
     return acc;
   }, []);
-  ctx.reply(`${result.join('\r\n')}`);
+  ctx.reply(`${result.join('\r\n\r\n')}`);
 };
 
 module.exports = {
