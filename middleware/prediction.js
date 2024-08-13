@@ -1,8 +1,15 @@
-const { InputFile } = require("grammy");
+const { isToday } = require('date-fns');
 
 const { isToday, format } = require('date-fns');
 const UserTelegram = require('../models/userTelegram');
 const Prediction = require('../models/prediction');
+
+function todayChecker(user) {
+  if (user && !isToday(new Date(user.lastDayGet))) {
+    myUser.todayCount = 3;
+    myUser.save();
+  }
+};
 
 async function findRandomPrediction(user) {
   const predictions = await Prediction.find();
@@ -11,6 +18,7 @@ async function findRandomPrediction(user) {
 
   return filtredPrediction[random] || {};
 };
+
 
 async function getRandomPrediction(ctx) {
   const { id: telegram_id, lastDayGet  } = ctx.update?.callback_query?.from || ctx.update?.message?.from;
@@ -65,6 +73,7 @@ async function getPeredictionsNoPhoto(page = 0) {
 };
 
 module.exports = {
+  todayChecker,
   getRandomPrediction,
   setPhotoToPredicition,
   findRandomPrediction,

@@ -1,61 +1,71 @@
 const path = require('path');
 const fs = require('fs');
-const { Blob } = require('buffer');
-
 const { WgConfig, getConfigObjectFromFile  } = require('wireguard-tools');
 
+const serverFilePath = path.join('/etc/wireguard', `/wg0.conf`);
+const filePath = (id) => path.join('/root', `/newWg-${id}.conf`);
 
+const clientPeer = {
+  allowedIps: ['0.0.0.0/0','::/0'],
+  endpoint: ['45.132.1.20:59372'],
+  publicKey: '7yIFNwTyAZT8jzJ80cmvv1El8/B3xemXciI65gjN9F4=',
+};
+
+function getConfLength() {
+  const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
+  return files.length + 10;
+};
+async function getServerWgConfig(filePath) {
+  const conf = await getConfigObjectFromFile({ filePath });
+  return new WgConfig({ ...conf, filePath });
+};
+
+async function createClientWgConfig(length) {
+  return new WgConfig({
+    wgInterface: {
+      name: `Client ${length}`,
+      dns: ['1.1.1.1', '1.0.0.1'],
+      address: [`10.66.66.${length}/32`,`fd42:42:42::${length}/128`],
+    },
+    filePath: filePath(length),
+  });
+};
+
+async function createNewClient(ctx) {
+  const length = getConfLength()
+
+  const server = getServerWgConfig(serverFilePath)
+  const client = createClientWgConfig(length)
+
+  const { preSharedKey } = await client.generateKeys({ preSharedKey: true });
+
+  client.addPeer({
+    ...clientPeer,
+    preSharedKey
+  });
+  server.addPeer(
+    client.createPeer({
+      allowedIps: [`10.66.66.${length}/32`,`fd42:42:42::${length}/128`],
+      preSharedKey,
+    }),
+  );
+
+  await Promise.all([
+    client.writeToFile(),
+    server.writeToFile(),
+    server.restart(),
+    client.restart(),
+    client.down(),
+  ]);
+
+  return filePath;
+};
 
 // const promises = files.map(async (name) => {
 //   const filePath = path.join(__dirname, name)
 //   const thatConfigFromFile = await getConfigObjectFromFile({ filePath });
 //   return thatConfigFromFile;
 // })
-
-async function createNewClient(ctx) {
-  const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
-  const length = files.length;
-  const id = length + 10;
-  const filePath = path.join('/root', `/newWg-${id}.conf`);
-  const serverFilePath = path.join('/etc/wireguard', `/wg0.conf`);
-  const serverConf = await getConfigObjectFromFile({ filePath: serverFilePath });
-  const server = new WgConfig({
-    ...serverConf,
-    filePath: serverFilePath,
-  })
-  const params = {
-    wgInterface: {
-      name: `Client ${id}`,
-      address: [`10.66.66.${id}/32`,`fd42:42:42::${id}/128`],
-      dns: ['1.1.1.1', '1.0.0.1'],
-    },
-    filePath,
-  };
-  const client = new WgConfig(params);
-  await Promise.all([
-    server.generateKeys({ preSharedKey: true }),
-    client.generateKeys({ preSharedKey: true })
-  ]);
-
-  client.addPeer({
-    allowedIps: ['0.0.0.0/0','::/0'],
-    endpoint: ['45.132.1.20:59372'],
-    publicKey: '7yIFNwTyAZT8jzJ80cmvv1El8/B3xemXciI65gjN9F4=',
-    preSharedKey: client.preSharedKey
-  });
-  server.addPeer(client.createPeer({
-    allowedIps: [`10.66.66.${id}/32`,`fd42:42:42::${id}/128`],
-    preSharedKey: client.preSharedKey
-  }))
-  await client.writeToFile();
-  await client.restart();
-  await server.writeToFile();
-  await server.restart();
-  await client.down();
-  // const buffer = fs.readFileSync(filePath);
-  // const blob = new Blob([buffer]);
-  return filePath;
-};
 
 module.exports = {
   createNewClient,
