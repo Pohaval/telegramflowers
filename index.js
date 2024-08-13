@@ -18,15 +18,15 @@ const { WgConfig, getConfigObjectFromFile  } = require('wireguard-tools');
 
 const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
 
-const promises = files.map(async (name) => {
-  const filePath = path.join(__dirname, name)
-  const thatConfigFromFile = await getConfigObjectFromFile({ filePath });
-  return thatConfigFromFile;
-})
-const f1 = async () => {
-  const res = await Promise.all(promises);
-  console.log(res);
-};
+// const promises = files.map(async (name) => {
+//   const filePath = path.join(__dirname, name)
+//   const thatConfigFromFile = await getConfigObjectFromFile({ filePath });
+//   return thatConfigFromFile;
+// })
+// const f1 = async () => {
+//   const res = await Promise.all(promises);
+//   console.log(res);
+// };
 // f1();
 
 const f = async () =>{
