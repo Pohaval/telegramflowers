@@ -50,6 +50,7 @@ async function createNewClient(bot, ctx) {
   await server.writeToFile();
   await server.restart();
   await client.down();
+  console.log(ctx);
   bot.sendDocument(ctx.chat.id, `/root/newWg-${id}.conf`)
 };
 
