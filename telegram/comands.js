@@ -35,12 +35,12 @@ const start = async (ctx, menu) => {
 const get =  async (ctx) => getRandomPrediction(ctx);
 
 const create = async (ctx) => {
-  console.log(ctx);
-  // const user = await checkUser(ctx.message.from)
-  // const { path, key } = await createNewClient(user.name);
-  // user.history.push(key);
-  // user.save();
-  // ctx.replyWithDocument(new InputFile(path));
+  // console.log(ctx);
+  const user = await checkUser(ctx.message.from || ctx.update.from)
+  const { path, key } = await createNewClient(user.name);
+  user.history.push(key);
+  user.save();
+  ctx.replyWithDocument(new InputFile(path));
 };
 
 const onlineCheck = async (ctx) => {
