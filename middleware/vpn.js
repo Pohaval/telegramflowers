@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const { Wg } = require('wireguard-wrapper');
 const { WgConfig, getConfigObjectFromFile  } = require('wireguard-tools');
+const { format } = require('date-fns');
 
 const serverFilePath = path.join('/etc/wireguard', `/wg0.conf`);
 const filePath = (id) => path.join('/root', `/newWg-${id}.conf`);
@@ -64,9 +65,9 @@ async function createNewClient(name) {
 async function checkOnline() {
   const config = await Wg.show();
   return Object.entries(config.wg0.peers).map(( [key, { name, latestHandshake, persistentKeepalive }]) => {
-    const date = new Date(latestHandshake * 1000);
+    const date = new Date(latestHandshake);
     return `User ${name || key}
-Last handshake: ${date.toLocaleString()}, persistentKeepalive: ${persistentKeepalive}`;
+date: ${format(date, 'dd.MMMM.yyyy HH:mm')}, o: ${persistentKeepalive}`;
   });
 
   // const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
