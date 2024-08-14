@@ -23,12 +23,12 @@ function script() {
         console.error(err);
         return;
       }
-      bot.api.sendMessage(admin, data);
+      if (data.includes('eZpJnWOIsdxPnQcHJ8kaCPbh6+UoBKC2sKTW1xiA/TI=')) bot.api.sendMessage(admin, data);
     });
   })
 
 };
-// script();
+script();
 bot.use(menus.getTunnel);
 
 bot.command("start", (ctx) => commands.start(ctx, menus.getTunnel));
