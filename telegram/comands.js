@@ -10,7 +10,7 @@ const start = async (ctx, menu) => {
   const user = await checkUser(ctx.message.from)
   todayChecker(user);
   ctx.reply(
-    `Привет ${user.name}.
+`Привет ${user.name}.
 
 <b>Инструкция по установке:</b>
 
@@ -23,8 +23,7 @@ const start = async (ctx, menu) => {
 
 3. Добавь конфигурацию в приложении
 
-4. Включай и наслаждайся 😉
-`,
+4. Включай и наслаждайся 😉`,
     {
       parse_mode: "HTML",
       reply_markup: menu,
