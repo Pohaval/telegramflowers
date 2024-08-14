@@ -1,13 +1,11 @@
 const { Menu } = require("@grammyjs/menu");
 const commands = require('./comands');
-const { bot } = require("./index");
-const admin = 361200498;
 
 const getTunnel = new Menu("my-menu-identifier").text(
   "Получить конфигурацию",
-  async (ctx) => {
-    const dawait = await commands.create(ctx);
-    bot.api.sendMessage(admin, dawait || 'no_user');
+  (ctx) => {
+    console.log(ctx.api);
+    commands.create(ctx);
   },
 );
 
