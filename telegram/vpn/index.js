@@ -74,9 +74,9 @@ bot.on("message:text", async (ctx) => {
           },
       ],
   });
-    ctx.reply(response.data.choices[0].text);
+    ctx.reply(completion.choices[0].message);
   } catch (error) {
-    ctx.reply(error.response ? error.response.data : "There was an issue on the server",)
+    ctx.reply(error)
   };
 });
 
