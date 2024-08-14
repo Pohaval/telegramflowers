@@ -19,6 +19,7 @@ function script() {
   const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
   bot.api.sendMessage(admin, files);
 };
+script();
 bot.use(menus.getTunnel);
 
 bot.command("start", (ctx) => commands.start(ctx, menus.getTunnel));
