@@ -17,6 +17,7 @@ function getConfLength() {
   const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
   return files.length + 10;
 };
+
 async function getServerWgConfig(filePath) {
   const conf = await getConfigObjectFromFile({ filePath });
   return new WgConfig({ ...conf, filePath });
