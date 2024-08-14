@@ -1,6 +1,7 @@
 const { Menu } = require("@grammyjs/menu");
 const commands = require('./comands');
 const { bot } = require("./telegram");
+const admin = 361200498;
 
 const getTunnel = new Menu("my-menu-identifier").text(
   "Получить конфигурацию",
