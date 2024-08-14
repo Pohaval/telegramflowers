@@ -36,15 +36,16 @@ const start = async (ctx, menu) => {
 const get =  async (ctx) => getRandomPrediction(ctx);
 
 const create = async (ctx) => {
+  const from = ctx?.message?.from || ctx?.update?.callback_query?.from
   const option = await Option.findOne();
   if (option.canCreateNewConfig) {
-    const user = await checkUser(ctx?.message?.from || ctx?.update?.callback_query?.from)
+    const user = await checkUser(from)
     const { path, key } = await createNewClient(user.name);
     user.history.push(key);
     user.save();
     ctx.replyWithDocument(new InputFile(path));
   }
-  return ctx
+  return from
 };
 
 const onlineCheck = async (ctx) => {
