@@ -77,7 +77,7 @@ async function checkOnline() {
 
 async function wgShow() {
   const config = await Wg.show()
-  return Object.entries(config.wg0.peers).filter((endpoint) => !!endpoint).map(([key, peer]) => {
+  return Object.entries(config.wg0.peers).filter(([_, { endpoint }]) => !!endpoint).map(([key, peer]) => {
     const { latestHandshake, endpoint } = peer;
     console.log(peer);
     return {
