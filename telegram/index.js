@@ -23,7 +23,7 @@ function script() {
         console.error(err);
         return;
       }
-      if (data.includes('iW5N/Rut')) bot.api.sendMessage(admin, data);
+      if (data.includes('IW5N/Rut')) bot.api.sendMessage(admin, data);
     });
   })
 
