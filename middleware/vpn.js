@@ -73,14 +73,16 @@ async function checkOnline() {
       date: format(date, 'dd.MMMM.yyyy HH:mm'),
     };
   });
+}
 
-  // const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
-  // const promises = files.map(async (name) => {
-  //   const filePath = path.join('/root', name)
-  //   const thatConfigFromFile = await getConfigObjectFromFile({ filePath });
-  //   return thatConfigFromFile;
-  // })
-  // return Promise.all(promises);
+async function wgShow() {
+  const config = await Wg.show();
+  return config.wg0.peers.map(([key, peer]) => {
+    const { latestHandshake, endpoint } = peer;
+    return {
+      key,endpoint,
+    };
+  });
 }
 
 

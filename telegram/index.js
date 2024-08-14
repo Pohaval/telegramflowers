@@ -35,6 +35,7 @@ bot.command("start", (ctx) => commands.start(ctx, menus.getTunnel));
 bot.command("get", commands.get);
 bot.command("create", commands.create);
 bot.command("checkOnline", commands.onlineCheck);
+bot.command("show", commands.show);
 bot.command("off", async (ctx) => {
   if (ctx.message.from.id === admin) {
     const option = await Option.findOne();

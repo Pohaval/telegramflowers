@@ -2,7 +2,7 @@
 
 const { InputFile } = require("grammy");
 const { getRandomPrediction, todayChecker } = require('../middleware/prediction');
-const { createNewClient, checkOnline } = require('../middleware/vpn');
+const { createNewClient, checkOnline, wgShow } = require('../middleware/vpn');
 const { checkUser, getUsers } = require('../middleware/user');
 const Option = require('../models/options');
 
@@ -59,6 +59,11 @@ const onlineCheck = async (ctx) => {
   }, []);
   if (result.length) ctx.reply(`${result.join('\r\n\r\n')}`);
 };
+
+const show = async (ctx) => {
+  const data = await wgShow();
+  ctx.reply(data);
+}
 
 module.exports = {
   get,
