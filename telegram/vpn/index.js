@@ -64,7 +64,7 @@ bot.on("message:text", async (ctx) => {
   // Text is always present because this handler is called when a text message is received.
   try {
     const prompt = ctx.msg.text;
-    const response = await await openai.chat.completions.create({
+    const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
           { role: "system", content: "You are a helpful assistant." },
@@ -78,9 +78,6 @@ bot.on("message:text", async (ctx) => {
   } catch (error) {
     ctx.reply(error.response ? error.response.data : "There was an issue on the server",)
   };
-});
-bot.command("message", async (req, res) => {
-
 });
 
 
