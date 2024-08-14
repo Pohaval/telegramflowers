@@ -26,7 +26,7 @@ async function getServerWgConfig(filePath) {
 function createClientWgConfig(length, name) {
   return new WgConfig({
     wgInterface: {
-      name: `Client ${name}`,
+      name: `Client ${name || length}`,
       dns: ['1.1.1.1', '1.0.0.1'],
       address: [`10.66.66.${length}/32`,`fd42:42:42::${length}/128`],
     },
@@ -76,9 +76,10 @@ async function checkOnline() {
 }
 
 async function wgShow() {
-  const config = await Wg.show();
-  return Object.entries(config.wg0.peers).map(([key, peer]) => {
+  const config = await Wg.show()
+  return Object.entries(config.wg0.peers).filter((endpoint) => !!endpoint).map(([key, peer]) => {
     const { latestHandshake, endpoint } = peer;
+    console.log(peer);
     return {
       key,endpoint,
     };

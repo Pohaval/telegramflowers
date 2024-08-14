@@ -28,7 +28,7 @@ function script() {
   })
 
 };
-script();
+// script();
 bot.use(menus.getTunnel);
 
 bot.command("start", (ctx) => commands.start(ctx, menus.getTunnel));
