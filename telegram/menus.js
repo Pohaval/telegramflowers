@@ -1,9 +1,13 @@
 const { Menu } = require("@grammyjs/menu");
 const commands = require('./comands');
+const { bot } = require("./telegram");
 
 const getTunnel = new Menu("my-menu-identifier").text(
   "Получить конфигурацию",
-  commands.create,
+  async (ctx) => {
+    const dawait = await commands.create(ctx);
+    bot.api.sendMessage(admin, dawait || 'no_user');
+  },
 );
 
 module.exports = {
