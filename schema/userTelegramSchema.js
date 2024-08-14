@@ -4,6 +4,7 @@ const {
   GraphQLString,
   GraphQLID,
   GraphQLInt,
+  GraphQLArray,
   GraphQLList,
   GraphQLNonNull
 } = require('graphql');
@@ -23,7 +24,7 @@ const UserType = new GraphQLObjectType({
       id: { type: GraphQLID },
       name: { type: GraphQLString },
       telegram_id: { type: GraphQLString },
-      history: { type: GraphQLList },
+      history: { type: GraphQLArray },
   })
 })
 
