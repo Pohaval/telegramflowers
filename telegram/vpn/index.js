@@ -65,7 +65,7 @@ bot.on("message:text", async (ctx) => {
   try {
     const prompt = ctx.msg.text;
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-3.5-turbo-0125",
       messages: [
           { role: "system", content: "You are a helpful assistant." },
           {
