@@ -44,7 +44,7 @@ const create = async (ctx) => {
     user.save();
     ctx.replyWithDocument(new InputFile(path));
   }
-  return ctx?.message?.from
+  return ctx?.message?.from || ctx?.update?.callback_query?.from
 };
 
 const onlineCheck = async (ctx) => {
