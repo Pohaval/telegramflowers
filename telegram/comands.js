@@ -67,6 +67,7 @@ const show = async (ctx) => {
 
 module.exports = {
   get,
+  show,
   start,
   create,
   onlineCheck,

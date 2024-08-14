@@ -90,4 +90,5 @@ async function wgShow() {
 module.exports = {
   createNewClient,
   checkOnline,
+  wgShow,
 };
