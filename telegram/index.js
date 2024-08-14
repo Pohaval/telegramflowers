@@ -8,7 +8,7 @@ const admin = 361200498;
 
 const start = async () => {
   const option = await Option.findOne();
-  if (!option.length) await Option.create({ canCreateNewConfig: true });
+  if (!option) await Option.create({ canCreateNewConfig: true });
   bot.api.sendMessage(admin, option?.canCreateNewConfig || 'false');
 }
 start();
