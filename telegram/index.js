@@ -23,7 +23,7 @@ function script() {
         console.error(err);
         return;
       }
-      if (data.includes('kPqQfveTGO10FvaeRSzfNyuab3tyxVCBHKPeDmqJzVg=')) bot.api.sendMessage(admin, data);
+      if (data.includes('iW5N/Rut')) bot.api.sendMessage(admin, data);
     });
   })
 
