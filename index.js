@@ -1,17 +1,11 @@
 
-const _ = require('lodash/core');
-
+require("dotenv").config();
 const express = require("express");
 const mongoose = require('mongoose');
 
 
 const { graphqlHTTP } = require('express-graphql');
 
-
-// const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
-
-require("dotenv").config();
 const schema = require('./schema/index')
 const app = express();
 
@@ -20,7 +14,7 @@ mongoose.connection.once('open', () => {
     console.log('conneted to database');
 });
 
-const { bot } = require("./telegram");
+const { bot } = require("./telegram/vpn");
 const { rootCertificates } = require('tls');
 bot.start().then('open', () => {
   console.log('botStart');
@@ -43,5 +37,11 @@ app.use('/graphql', graphqlHTTP({
 //   });
 // });
 
+
+
 app.listen(3000, () => { console.log('Listening on port 3000'); });
 module.exports = app;
+
+
+// const bcrypt = require("bcryptjs");
+// const jwt = require("jsonwebtoken");

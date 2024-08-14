@@ -1,8 +1,12 @@
 const commands = require('./comands');
 const menus = require('./menus');
-const Option = require('../models/options');
+const Option = require('../../models/options');
 const path = require('path');
 const fs = require('fs');
+require("dotenv").config();
+
+const OpenAI = require("openai");
+const openai = new OpenAI({ apiKey: process.env.OPEN_AI_KEY });
 
 const { Bot } = require("grammy");
 const bot = new Bot("6245127615:AAE2IB_uUiU1kkkSzNJOn7D8PnBwBiPnL8Y");
@@ -54,6 +58,29 @@ bot.command("on", async (ctx) => {
     option.save();
     ctx.reply("ok!");
    }
+});
+
+bot.on("message:text", async (ctx) => {
+  // Text is always present because this handler is called when a text message is received.
+  try {
+    const prompt = ctx.msg.text;
+    const response = await await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+          { role: "system", content: "You are a helpful assistant." },
+          {
+              role: "user",
+              content: "Write a haiku about recursion in programming.",
+          },
+      ],
+  });
+    ctx.reply(response.data.choices[0].text);
+  } catch (error) {
+    ctx.reply(error.response ? error.response.data : "There was an issue on the server",)
+  };
+});
+bot.command("message", async (req, res) => {
+
 });
 
 

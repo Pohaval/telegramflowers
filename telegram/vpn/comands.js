@@ -1,10 +1,10 @@
 
 
 const { InputFile } = require("grammy");
-const { getRandomPrediction, todayChecker } = require('../middleware/prediction');
-const { createNewClient, checkOnline, wgShow } = require('../middleware/vpn');
-const { checkUser, getUsers } = require('../middleware/user');
-const Option = require('../models/options');
+const { getRandomPrediction, todayChecker } = require('../../middleware/prediction');
+const { createNewClient, checkOnline, wgShow } = require('../../middleware/vpn');
+const { checkUser, getUsers } = require('../../middleware/user');
+const Option = require('../../models/options');
 
 
 const start = async (ctx, menu) => {
