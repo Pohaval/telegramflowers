@@ -4,6 +4,7 @@ const { InputFile } = require("grammy");
 const { getRandomPrediction, todayChecker } = require('../middleware/prediction');
 const { createNewClient, checkOnline } = require('../middleware/vpn');
 const { checkUser, getUsers } = require('../middleware/user');
+const Option = require('../models/options');
 
 
 const start = async (ctx, menu) => {
@@ -35,11 +36,14 @@ const start = async (ctx, menu) => {
 const get =  async (ctx) => getRandomPrediction(ctx);
 
 const create = async (ctx) => {
-  const user = await checkUser(ctx?.message?.from || ctx?.update?.callback_query?.from)
-  const { path, key } = await createNewClient(user.name);
-  user.history.push(key);
-  user.save();
-  ctx.replyWithDocument(new InputFile(path));
+  const option = await Option.findOne();
+  if (option.canCreateNewConfig) {
+    const user = await checkUser(ctx?.message?.from || ctx?.update?.callback_query?.from)
+    const { path, key } = await createNewClient(user.name);
+    user.history.push(key);
+    user.save();
+    ctx.replyWithDocument(new InputFile(path));
+  }
 };
 
 const onlineCheck = async (ctx) => {

@@ -1,7 +1,7 @@
 const { GraphQLObjectType,  GraphQLSchema } = require('graphql');
 
-const { userQueryFields, userMutationFields } = require("./userSchema");
-const { bookQueryFields, bookMutationFields } = require("./bookSchema");
+const { userQueryFields, userMutationFields } = require("./userTelegramSchema");
+const { bookQueryFields, bookMutationFields } = require("./optionSchema");
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',

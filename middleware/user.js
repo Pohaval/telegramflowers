@@ -7,7 +7,7 @@ async function checkUser({ id: telegram_id, first_name: name }) {
 }
 
 async function isAdmin(telegram_id) {
-  const { admin } = await UserTelegram.findOne({ telegram_id});
+  const { admin } = await UserTelegram.findOne({ telegram_id });
   return admin;
 }
 
