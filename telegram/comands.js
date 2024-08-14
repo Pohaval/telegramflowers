@@ -43,7 +43,8 @@ const create = async (ctx) => {
     user.history.push(key);
     user.save();
     ctx.replyWithDocument(new InputFile(path));
-  } else return ctx?.message?.from
+  }
+  return ctx?.message?.from
 };
 
 const onlineCheck = async (ctx) => {
