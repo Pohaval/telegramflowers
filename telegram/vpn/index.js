@@ -4,7 +4,7 @@ const Option = require('../../models/options');
 const path = require('path');
 const fs = require('fs');
 require("dotenv").config();
-const { UserTelegram } = require('../models/UserTelegram');
+const { UserTelegram } = require('../models/userTelegram');
 const onlineInfo = require('../models/onlineInfo');
 
 const OpenAI = require("openai");
