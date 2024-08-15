@@ -1,4 +1,4 @@
-const User = require('../models/UserTelegram');
+const User = require('../models/userTelegram');
 const {
   GraphQLObjectType,
   GraphQLString,
