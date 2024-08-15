@@ -45,8 +45,8 @@ async function getInfo() {
   const res = {
     date: currentDate,
     count: filtered.length,
-    transferRx:
-    transferTx:
+    transferRx,
+    transferTx,
     users: users.reduce((acc, user) => {
       if (filtered.some(({ peer }) => user.history.includes(peer.publicKey))) {
         acc.push(user);
