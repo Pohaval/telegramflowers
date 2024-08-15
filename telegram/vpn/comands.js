@@ -73,11 +73,12 @@ module.exports = {
   start,
   create,
   onlineCheck,
+  wgShow,
 };
 
 // const sendToAll = async (ctx) => {
 //   if (isAdmin(ctx.message.from.id)) {
-//     const users = await UserTelegram.find();
+//     const users = await modelfind();
 //     users.forEach(async (user) => {
 //       const { id, text, image_id } = await findRandomPrediction(user);
 //       bot.api.sendPhoto(user.telegram_id, image_id, { caption: text })
@@ -91,9 +92,9 @@ module.exports = {
 //   const { text } = ctx.update.message;
 //   const telegramId = text.replace('/sendToOne ', '');
 //   console.log(telegramId)
-//   const { admin } = await UserTelegram.findOne({ telegram_id: ctxId });
+//   const { admin } = await modelfindOne({ telegram_id: ctxId });
 //   if (admin) {
-//     const user = await UserTelegram.findOne({ telegram_id: telegramId });
+//     const user = await modelfindOne({ telegram_id: telegramId });
 //     console.log(user)
 //     const { id, text: message, image_id } = await findRandomPrediction(user);
 //     if (image_id) {
@@ -112,7 +113,7 @@ module.exports = {
 //   const { id } = ctx.message.from;
 //   const { text } = ctx.message;
 //   const prediction = text.replace('/create', '');
-//   const { admin } = await UserTelegram.findOne({ telegram_id: id });
+//   const { admin } = await modelfindOne({ telegram_id: id });
 //   if (admin) {
 //     if (prediction) {
 //       console.log(ctx);
@@ -126,6 +127,6 @@ module.exports = {
 //   const { id } = ctx.message.from;
 //   const { image } = ctx.message;
 //   // const prediction = text.replace('/create', '');
-//   const { admin } = await UserTelegram.findOne({ telegram_id: id });
+//   const { admin } = await modelfindOne({ telegram_id: id });
 //   if (admin) {
 // };

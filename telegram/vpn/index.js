@@ -4,6 +4,8 @@ const Option = require('../../models/options');
 const path = require('path');
 const fs = require('fs');
 require("dotenv").config();
+const { UserTelegram } = require('../models/UserTelegram');
+const onlineInfo = require('../models/onlineInfo');
 
 const OpenAI = require("openai");
 const openai = new OpenAI({ apiKey: process.env.OPEN_AI_KEY });
@@ -18,6 +20,44 @@ const start = async () => {
   bot.api.sendMessage(admin, option?.canCreateNewConfig || 'false');
 };
 start();
+
+const minutes = 10;
+const the_interval = minutes * 60 * 1000;
+// setInterval(getInfo, the_interval);
+
+async function getInfo() {
+  const currentDate = new Date();
+  const data = await commands.wgShow();
+  const filtered = data.filter(({ peer }) => {
+    const aFiveMinuteAgo = new Date(Date.now() - 1000 * 60 * 5);
+    return isWithinInterval(new Date(peer.latestHandshake), {
+      start: aFiveMinuteAgo,
+      end: currentDate,
+    })
+  });
+  let users = [];
+  onlineInfo.find()
+  let transferRx = 0;
+  let transferTx = 0
+  if (filtered.length) {
+    users = await UserTelegram.find();
+  }
+  const res = {
+    date: currentDate,
+    count: filtered.length,
+    transferRx:
+    transferTx:
+    users: users.reduce((acc, user) => {
+      if (filtered.some(({ peer }) => user.history.includes(peer.publicKey))) {
+        acc.push(user);
+        user.lastDayGet = peer.latestHandshake;
+        user.save();
+      }
+      return acc;
+    }, []),
+  };
+  onlineInfo.create(res);
+};
 
 // function script() {
 //   const files = fs.readdirSync('/root').filter((name) => name.includes('.conf'));

@@ -1,22 +1,14 @@
-const User = require('../models/userTelegram');
+const User = require('../models/UserTelegram');
 const {
   GraphQLObjectType,
   GraphQLString,
+  GraphQLNumber,
   GraphQLID,
   GraphQLInt,
   GraphQLArray,
   GraphQLList,
-  GraphQLNonNull
 } = require('graphql');
 
-// const {
-//   GraphQLObjectType,
-//   GraphQLString,
-//   GraphQLID,
-//   GraphQLInt,
-//   GraphQLList,
-//   GraphQLNonNull
-// } = graphql;
 
 const UserType = new GraphQLObjectType({
   name: 'User',
@@ -24,7 +16,7 @@ const UserType = new GraphQLObjectType({
       id: { type: GraphQLID },
       name: { type: GraphQLString },
       telegram_id: { type: GraphQLString },
-      history: { type: GraphQLArray },
+      history: () => GraphQLInt,
   })
 })
 
@@ -45,20 +37,6 @@ const userQueryFields = {
 };
 
 const userMutationFields = {
-  addAUser: {
-    type: UserType,
-    args: {
-        name: { type: new GraphQLNonNull(GraphQLString) },
-        telegram_id: { type: new GraphQLNonNull(GraphQLString) }
-    },
-    resolve(parent, args) {
-        let user = new User({
-            name: args.name,
-            telegram_id: args.telegram_id
-        });
-        return user.save();
-    }
-  },
 };
 
 module.exports = {

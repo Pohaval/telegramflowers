@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const userTelegram = new Schema({
+const UserTelegram = new Schema({
   name: String,
   telegram_id: String,
   admin: Boolean,
@@ -11,4 +11,7 @@ const userTelegram = new Schema({
   history: Array,
 });
 
-module.exports = mongoose.model('userTelegram', userTelegram);
+module.exports = {
+  UserTelegram: mongoose.model('UserTelegram', UserTelegram),
+  schema: UserTelegram,
+};

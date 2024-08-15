@@ -1,5 +1,5 @@
 const { isToday, format } = require('date-fns');
-const UserTelegram = require('../models/userTelegram');
+const { UserTelegram } = require('../models/UserTelegram');
 const Prediction = require('../models/prediction');
 
 function todayChecker(user) {
@@ -20,7 +20,7 @@ async function findRandomPrediction(user) {
 
 async function getRandomPrediction(ctx) {
   const { id: telegram_id, lastDayGet  } = ctx.update?.callback_query?.from || ctx.update?.message?.from;
-  const user = await UserTelegram.findOne({ telegram_id });
+  const user = await modelfindOne({ telegram_id });
 
   const HOURS_TO_VIEW = 0.01;
   const SERVER_HOURS = -3;
