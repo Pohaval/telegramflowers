@@ -16,7 +16,7 @@ const UserType = new GraphQLObjectType({
       id: { type: GraphQLID },
       name: { type: GraphQLString },
       telegram_id: { type: GraphQLString },
-      history: [({ type: GraphQLInt })],
+      history: ({ type: GraphQLInt }),
   })
 })
 
