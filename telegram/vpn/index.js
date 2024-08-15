@@ -4,8 +4,8 @@ const Option = require('../../models/options');
 const path = require('path');
 const fs = require('fs');
 require("dotenv").config();
-const { UserTelegram } = require('../models/userTelegram');
-const onlineInfo = require('../models/onlineInfo');
+const { UserTelegram } = require('../../models/userTelegram');
+const onlineInfo = require('../../models/onlineInfo');
 
 const OpenAI = require("openai");
 const openai = new OpenAI({ apiKey: process.env.OPEN_AI_KEY });
