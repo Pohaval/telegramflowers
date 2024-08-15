@@ -1,5 +1,5 @@
 const { isToday, format } = require('date-fns');
-const { UserTelegram } = require('../models/UserTelegram');
+const { UserTelegram } = require('../models/userTelegram');
 const Prediction = require('../models/prediction');
 
 function todayChecker(user) {
