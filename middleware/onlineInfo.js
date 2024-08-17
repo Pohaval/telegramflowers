@@ -32,7 +32,7 @@ async function getInfo() {
   const lastTransferTx = lastInfo?.transferTx || 0;
 
   const promises = filtered.map(async (i) => {
-    const user = await UserTelegram.findOne({ history: { "$in" : [key]} });
+    const user = await UserTelegram.findOne({ history: { "$in" : [i.key]} });
     return {
       ...i,
       user,
@@ -65,9 +65,9 @@ async function getInfo() {
               name: user.name,
             },
           } : {},
-          key: peer.publicKey,
           transferTx: peer.transferTx,
           transferRx: peer.transferRx,
+          key,
         },
       ],
     };
