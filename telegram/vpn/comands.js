@@ -5,6 +5,7 @@ const { getRandomPrediction, todayChecker } = require('../../middleware/predicti
 const { createNewClient, checkOnline, wgShow } = require('../../middleware/vpn');
 const { checkUser, getUsers } = require('../../middleware/user');
 const { getInfo } = require('../../middleware/onlineInfo');
+const { on, off } = require('../../middleware/option');
 const Option = require('../../models/options');
 
 
@@ -73,8 +74,14 @@ const getOnlineInfo = async (ctx) => {
   ctx.reply(data);
 }
 
+const on = async (ctx) => {
+  const data = await getInfo();
+  ctx.reply(data);
+}
+
 module.exports = {
   get,
+  on, off,
   show,
   start,
   create,
