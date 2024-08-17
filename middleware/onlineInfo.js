@@ -43,7 +43,7 @@ async function getInfo() {
   console.log(peers);
 
 
-  const resData = peers.reduce(async (acc, { key, peer, user }) => {
+  const resData = peers.reduce((acc, { key, peer, user }) => {
     const lastUserTx = user ? user?.transferTx : 0;
     const lastUserRx = user ? user?.transferRx : 0;
     const lastUserTotalTx = user ? user?.totalTx : 0;
