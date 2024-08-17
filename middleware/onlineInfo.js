@@ -35,7 +35,7 @@ async function getInfo() {
     const user = await UserTelegram.findOne({ history: { "$in" : [i.key]} });
     return {
       ...i,
-      user,
+      user: user ? user : {},
     }
   });
 
