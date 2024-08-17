@@ -8,6 +8,7 @@ const { getInfo } = require('../../middleware/onlineInfo');
 const { on, off } = require('../../middleware/option');
 const Option = require('../../models/options');
 const { formatDistance } = require('date-fns');
+const ru =  require('date-fns/locale/ru');
 
 
 const start = async (ctx, menu) => {
@@ -83,7 +84,8 @@ const getOnlineInfo = async (ctx) => {
 
   const usersRes = users.map(({ name, key, latestHandshake, transferRx, transferTx }) => {
     const result = formatDistance(new Date(latestHandshake * 1000), new Date(), {
-      addSuffix: true
+      addSuffix: true,
+      locale: ru,
     })
     return `${name || key}\r\n ${result}\r\n RX: ${transferRx / (1024 * 1024)}КБ\r\n TX:${transferTx / (1024 * 1024)}КБ`
   });
