@@ -83,7 +83,7 @@ const getOnlineInfo = async (ctx) => {
   } = await getInfo();
   console.log(users);
 
-  const usersRes = users.map(({ name, key, latestHandshake, transferRx, transferTx }) => {
+  const usersRes = users.map(({ user, key, latestHandshake, transferRx, transferTx }) => {
     const result = formatDistance(new Date(latestHandshake * 1000), new Date(), {
       addSuffix: true,
       locale: ru,
