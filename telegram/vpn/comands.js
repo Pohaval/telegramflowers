@@ -81,7 +81,7 @@ const getOnlineInfo = async (ctx) => {
     users
   } = await getInfo();
 
-  const usersRes = users.map(({ key: peer }) => {
+  const usersRes = users.map(({ key, peer }) => {
     const result = formatDistance(new Date(peer.latestHandshake * 1000), new Date(), {
       addSuffix: true
     })
