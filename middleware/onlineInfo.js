@@ -31,20 +31,20 @@ async function getInfo() {
   const lastTransferRx = lastInfo?.transferRx || 0;
   const lastTransferTx = lastInfo?.transferTx || 0;
 
-  const reducer = async (acc, cur) => {
-    const user = await UserTelegram.findOne({ history: { "$in" : ['+gRXbPrlRz7WfdEbjT5PAynd+xtxUdj9f8MNfg0kklw=']} })
+
+  const { transferTx, transferRx, users } = await Promise.resolve(array.reduce(async (acc, cur) => {
+    const user = await Promise.resolve(UserTelegram.findOne({ history: { "$in" : ['+gRXbPrlRz7WfdEbjT5PAynd+xtxUdj9f8MNfg0kklw=']} }));
     user.totalTx = getTotalTransfer(cur.transferTx, user.transferTx, user.totalTx)
     user.totalRx = getTotalTransfer(cur.transferRx, user.transferRx, user.totalRx)
     user.transferTx = cur.transferTx;
     user.transferRx = cur.transferRx;
     user.lastDayGet = cur.latestHandshake;
     // user.save;
-
     return {
-      transferTx: await acc.tx + cur.transferTx,
-      transferRx: await acc.rx + cur.transferRx,
+      transferTx: acc.tx + cur.transferTx,
+      transferRx: acc.rx + cur.transferRx,
       users: [
-        ...await acc.users,
+        ...acc.users,
         {
           ...user ? {
             user: {
@@ -58,10 +58,8 @@ async function getInfo() {
         },
       ],
     };
-  }
+  }, { transferTx: 0, transferRx: 0 }));
 
-
-  const { transferTx, transferRx, users } = await filtered.reduce(reducer, { transferTx: 0, transferRx: 0 });
 
   const totalTX = getTotalTransfer(transferTx, lastTransferTx, lastTotalTx);
   const totalRX = getTotalTransfer(transferRx, lastTransferRx, lastTotalRx);
