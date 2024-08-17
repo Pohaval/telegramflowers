@@ -1,5 +1,6 @@
 const { UserTelegram } = require('../models/userTelegram');
 const onlineInfo = require('../models/onlineInfo');
+const vpn = require('./vpn');
 
 
 function setIntervalGetInfo() {
@@ -15,7 +16,7 @@ function getTotalTransfer(transfer, lastTransfer, lastTotal) {
 
 async function getInfo() {
   const currentDate = new Date();
-  const data = await commands.wgShow();
+  const data = await vpn.wgShow();
   const filtered = data.filter(({ peer }) => {
     const aFiveMinuteAgo = new Date(Date.now() - 1000 * 60 * 5);
     return isWithinInterval(new Date(peer.latestHandshake), {
