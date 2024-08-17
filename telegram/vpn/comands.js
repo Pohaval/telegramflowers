@@ -88,7 +88,7 @@ const getOnlineInfo = async (ctx) => {
       addSuffix: true,
       locale: ru,
     })
-    return `${name || key}\r\n ${result}\r\n RX: ${(transferRx / (1024 * 1024)).toFixed(2)} МБ \r\n TX: ${(transferTx / (1024 * 1024)).toFixed(2)} МБ`
+    return `${user ? user.name : key}\r\n ${result}\r\n RX: ${(transferRx / (1024 * 1024)).toFixed(2)} МБ \r\n TX: ${(transferTx / (1024 * 1024)).toFixed(2)} МБ`
   });
   ctx.reply(`Всего: ${count};\r\n TX: ${totalTX}; \r\n RX: ${totalRX}; \r\n\r\n ${usersRes.join('\r\n\r\n')}`);
 }
