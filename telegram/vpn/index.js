@@ -3,15 +3,8 @@ const { Bot } = require("grammy");
 const commands = require('./comands');
 const menus = require('./menus');
 const admin = process.env.ADMIN_ID;
-const { UserTelegram } = require('../../models/userTelegram');
 
 const bot = new Bot(process.env.BOT_ID);
-
-async function func() {
-  const users = await UserTelegram.findOne({ history: { "$in" : ['+gRXbPrlRz7WfdEbjT5PAynd+xtxUdj9f8MNfg0kklw=']} })
-  bot.api.sendMessage(admin, users);
-};
-func();
 
 bot.use(menus.getTunnel);
 bot.command("start", (ctx) => commands.start(ctx, menus.getTunnel));
@@ -24,6 +17,7 @@ bot.command("checkOnline", commands.onlineCheck);
 bot.command("show", commands.show);
 bot.command("off", commands.off);
 bot.command("on", commands.on);
+bot.command("onlineInfo", commands.getOnlineInfo);
 
 
 bot.api.setMyCommands([

@@ -7,6 +7,12 @@ function setIntervalGetInfo() {
   const the_interval = minutes * 60 * 1000;
   setInterval(getInfo, the_interval);
 };
+
+function getTotalTransfer(transfer, lastTransfer, lastTotal) {
+ const difference = transfer >= lastTransfer ? transfer - lastTransfer : transfer;
+ return lastTotal + difference;
+}
+
 async function getInfo() {
   const currentDate = new Date();
   const data = await commands.wgShow();
@@ -17,27 +23,46 @@ async function getInfo() {
       end: currentDate,
     })
   });
-  let users = [];
   const lastInfo = await onlineInfo.findOne({}, {}, { sort: { 'created_at' : -1 } })
   const lastTotalRx = lastInfo?.totalRx || 0;
   const lastTotalTx = lastInfo?.totalTx || 0;
   const lastTransferRx = lastInfo?.transferRx || 0;
   const lastTransferTx = lastInfo?.transferTx || 0;
 
-  const { transferTx, transferRx } = filtered.reduce((acc, cur) => ({
-    tx: acc.tx + cur.transferTx,
-    rx: acc.rx + cur.transferRx,
- }), { transferTx: 0, transferRx: 0 });
+  const reducer = async (acc, cur) => {
+    const user = await UserTelegram.findOne({ history: { "$in" : ['+gRXbPrlRz7WfdEbjT5PAynd+xtxUdj9f8MNfg0kklw=']} })
+    user.totalTx = getTotalTransfer(cur.transferTx, user.transferTx, user.totalTx)
+    user.totalRx = getTotalTransfer(cur.transferRx, user.transferRx, user.totalRx)
+    user.transferTx = cur.transferTx;
+    user.transferRx = cur.transferRx;
+    user.lastDayGet = cur.latestHandshake;
+    // user.save;
 
- const differenceTX = curTX > lastTransferTx ? curTx - lastTransferTx : curTX;
- const differenceRX = curRX > lastTransferRx ? curRx - lastTransferRx : curRX;
-
- const totalTX = lastTotalTx + differenceTX;
- const totalRX = lastTotalRx + differenceRX;
-
-  if (filtered.length) {
-    users = await UserTelegram.find();
+    return {
+      transferTx: await acc.tx + cur.transferTx,
+      transferRx: await acc.rx + cur.transferRx,
+      users: [
+        ...await acc.users,
+        {
+          ...user ? {
+            user: {
+              id: user.id,
+              name: user.name,
+            },
+          } : {},
+          key: cur.publicKey,
+          transferTx: cur.transferTx,
+          transferRx: cur.transferRx,
+        },
+      ],
+    };
   }
+
+
+  const { transferTx, transferRx, users } = await filtered.reduce(reducer, { transferTx: 0, transferRx: 0 });
+
+  const totalTX = getTotalTransfer(transferTx, lastTransferTx, lastTotalTx);
+  const totalRX = getTotalTransfer(transferRx, lastTransferRx, lastTotalRx);
 
   const res = {
     date: currentDate,
@@ -46,16 +71,10 @@ async function getInfo() {
     transferRx,
     totalTX,
     totalRX,
-    users: users.reduce((acc, user) => {
-      if (filtered.some(({ peer }) => user.history.includes(peer.publicKey))) {
-        acc.push(user);
-        user.lastDayGet = peer.latestHandshake;
-        user.save();
-      }
-      return acc;
-    }, []),
+    users,
   };
-  onlineInfo.create(res);
+  return res;
+  // onlineInfo.create(res);
 };
 
 module.exports = {

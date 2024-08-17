@@ -67,12 +67,18 @@ const show = async (ctx) => {
   ctx.reply(data);
 }
 
+const getOnlineInfo = async (ctx) => {
+  const data = await getInfo();
+  ctx.reply(data);
+}
+
 module.exports = {
   get,
   show,
   start,
   create,
   onlineCheck,
+  getOnlineInfo,
   wgShow,
 };
 
