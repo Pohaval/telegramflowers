@@ -81,11 +81,11 @@ const getOnlineInfo = async (ctx) => {
     users
   } = await getInfo();
 
-  const usersRes = users.map(({ key, peer }) => {
-    const result = formatDistance(new Date(peer.latestHandshake * 1000), new Date(), {
+  const usersRes = users.map(({ name, key, latestHandshake, transferRx, transferTx }) => {
+    const result = formatDistance(new Date(latestHandshake * 1000), new Date(), {
       addSuffix: true
     })
-    return `${peer.user.name || key}\r\n ${result}\r\n RX: ${peer.transferRx / 1024}КБ\r\n TX:${peer.transferTx / 1024}КБ`
+    return `${name || key}\r\n ${result}\r\n RX: ${transferRx / 1024}КБ\r\n TX:${transferTx / 1024}КБ`
   });
   ctx.reply(`Всего: ${count};\r\n TX: ${totalTX}; \r\n RX: ${totalRX}; \r\n\r\n ${usersRes.join('\r\n\r\n')}`);
 }
