@@ -7,6 +7,7 @@ const { checkUser, getUsers } = require('../../middleware/user');
 const { getInfo } = require('../../middleware/onlineInfo');
 const { on, off } = require('../../middleware/option');
 const Option = require('../../models/options');
+const { formatDistance } = require('date-fns');
 
 
 const start = async (ctx, menu) => {
@@ -71,7 +72,14 @@ const show = async (ctx) => {
 
 const getOnlineInfo = async (ctx) => {
   const data = await getInfo();
-  ctx.reply(data);
+
+  const res = data.map(({ key: peer }) => {
+    const result = formatDistance(new Date(peer.latestHandshake * 1000), new Date(), {
+      addSuffix: true
+    })
+    return `${peer.user.name || key}\r\n ${result}\r\n ${peer.transferRx / 1024}КБ\r\n ${peer.transferTx / 1024}КБ`
+  });
+  ctx.reply(`${res}.join('\r\n\r\n')`);
 }
 
 module.exports = {
