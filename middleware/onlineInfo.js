@@ -32,11 +32,15 @@ async function getInfo() {
   const lastTransferTx = lastInfo?.transferTx || 0;
 
 
-  const { transferTx, transferRx, users } = await Promise.resolve(filtered.reduce(async (acc, {key, peer }) => {
+  const { transferTx, transferRx, users } = await Promise.resolve(filtered.reduce(async (acc, { key, peer }) => {
     const [user] = await Promise.resolve(UserTelegram.find({ history: { "$in" : [key]} }));
     console.log(peer);
-    user.totalTx = getTotalTransfer(peer?.transferTx || 0, user?.transferTx || 0, user?.totalTx || 0)
-    user.totalRx = getTotalTransfer(peer.transferRx || 0, user?.transferRx || 0, user?.totalRx || 0)
+    const lastUserTx = user ? user?.transferTx : 0;
+    const lastUserRx = user ? user?.transferRx : 0;
+    const lastUserTotalTx = user ? user?.totalTx : 0;
+    const lastUserTotalRx = user ? user?.totalRx : 0;
+    user.totalTx = getTotalTransfer(peer.transferTx || 0, lastUserTx, lastUserTotalTx)
+    user.totalRx = getTotalTransfer(peer.transferRx || 0, lastUserRx || lastUserTotalRx)
     user.transferTx = peer.transferTx;
     user.transferRx = peer.transferRx;
     user.lastDayGet = peer.latestHandshake;
