@@ -18,7 +18,6 @@ function getTotalTransfer(transfer, lastTransfer, lastTotal) {
 async function getInfo() {
   const currentDate = new Date();
   const data = await vpn.wgShow();
-  console.log(data);
   const filtered = data.filter(({ peer }) => {
     const aFiveMinuteAgo = new Date(Date.now() - 1000 * 60 * 5);
     return isWithinInterval(new Date(peer.latestHandshake * 1000), {
@@ -41,6 +40,7 @@ async function getInfo() {
   });
 
   const peers = await Promise.all(promises);
+  console.log(peers);
 
 
   const { transferTx, transferRx, users } = peers.reduce(async (acc, { key, peer, user }) => {
