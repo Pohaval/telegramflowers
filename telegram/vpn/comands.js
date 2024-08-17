@@ -71,15 +71,23 @@ const show = async (ctx) => {
 }
 
 const getOnlineInfo = async (ctx) => {
-  const data = await getInfo();
+  const {
+    date,
+    count,
+    transferTx,
+    transferRx,
+    totalTX,
+    totalRX,
+    users
+  } = await getInfo();
 
-  const res = data.map(({ key: peer }) => {
+  const usersRes = users.map(({ key: peer }) => {
     const result = formatDistance(new Date(peer.latestHandshake * 1000), new Date(), {
       addSuffix: true
     })
-    return `${peer.user.name || key}\r\n ${result}\r\n ${peer.transferRx / 1024}КБ\r\n ${peer.transferTx / 1024}КБ`
+    return `${peer.user.name || key}\r\n ${result}\r\n RX: ${peer.transferRx / 1024}КБ\r\n TX:${peer.transferTx / 1024}КБ`
   });
-  ctx.reply(`${res}.join('\r\n\r\n')`);
+  ctx.reply(`Всего: ${count};\r\n TX: ${totalTX}; \r\n RX: ${totalRX}; \r\n\r\n ${usersRes.join('\r\n\r\n')}`);
 }
 
 module.exports = {
