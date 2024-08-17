@@ -68,6 +68,7 @@ async function getInfo() {
           } : {},
           transferTx: peer.transferTx,
           transferRx: peer.transferRx,
+          latestHandshake: peer.latestHandshake,
           key,
         },
       ],
