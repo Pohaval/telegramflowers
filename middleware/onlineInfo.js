@@ -31,11 +31,18 @@ async function getInfo() {
   const lastTransferRx = lastInfo?.transferRx || 0;
   const lastTransferTx = lastInfo?.transferTx || 0;
 
+  const promises = filtered.map(async (i) => {
+    const user = await UserTelegram.findOne({ history: { "$in" : [key]} });
+    return {
+      ...i,
+      user,
+    }
+  });
 
-  const { transferTx, transferRx, users } = await Promise.resolve(filtered.reduce(async (acc, { key, peer }) => {
-    console.log(peer);
-    const user = await Promise.resolve(UserTelegram.findOne({ history: { "$in" : [key]} }));
+  const peers = await Promise.all(promises);
 
+
+  const { transferTx, transferRx, users } = peers.reduce(async (acc, { key, peer, user }) => {
     const lastUserTx = user ? user?.transferTx : 0;
     const lastUserRx = user ? user?.transferRx : 0;
     const lastUserTotalTx = user ? user?.totalTx : 0;
@@ -64,7 +71,7 @@ async function getInfo() {
         },
       ],
     };
-  }, { transferTx: 0, transferRx: 0, users: [] }));
+  }, { transferTx: 0, transferRx: 0, users: [] });
 
 
   const totalTX = getTotalTransfer(transferTx, lastTransferTx, lastTotalTx);
