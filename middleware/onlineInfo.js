@@ -83,7 +83,6 @@ async function getInfo() {
     count: filtered.length,
     transferTx: resData.transferTx,
     transferRx: resData.transferRx,
-    transferRx,
     totalTX,
     totalRX,
     users: resData.users,
