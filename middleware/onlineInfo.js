@@ -53,7 +53,7 @@ async function getInfo() {
       users: [
         ...acc.users,
         {
-          ...user ? {
+          ...user.id ? {
             user: {
               id: user.id,
               name: user.name,
