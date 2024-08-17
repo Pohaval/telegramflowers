@@ -33,8 +33,9 @@ async function getInfo() {
 
 
   const { transferTx, transferRx, users } = await Promise.resolve(filtered.reduce(async (acc, { key, peer }) => {
-    console.log(key);
-    const [user] = await Promise.resolve(UserTelegram.find({ history: { "$in" : [key]} }));
+    console.log(peer);
+    const users = await Promise.resolve(UserTelegram.find({ history: { "$in" : [key]} }));
+    const user = users.length ? user[0] : null;
     console.log(user);
     const lastUserTx = user ? user?.transferTx : 0;
     const lastUserRx = user ? user?.transferRx : 0;
