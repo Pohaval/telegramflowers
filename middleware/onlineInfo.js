@@ -20,7 +20,7 @@ async function getInfo() {
   const data = await vpn.wgShow();
   const filtered = data.filter(({ peer }) => {
     const aFiveMinuteAgo = new Date(Date.now() - 1000 * 60 * 5);
-    return isWithinInterval(new Date(peer.latestHandshake), {
+    return isWithinInterval(new Date(peer.latestHandshake * 1000), {
       start: aFiveMinuteAgo,
       end: currentDate,
     })
