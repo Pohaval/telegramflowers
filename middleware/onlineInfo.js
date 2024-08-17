@@ -58,7 +58,7 @@ async function getInfo() {
         },
       ],
     };
-  }, { transferTx: 0, transferRx: 0 }));
+  }, { transferTx: 0, transferRx: 0, users: [] }));
 
 
   const totalTX = getTotalTransfer(transferTx, lastTransferTx, lastTotalTx);
