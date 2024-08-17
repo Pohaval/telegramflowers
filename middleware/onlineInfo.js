@@ -43,7 +43,7 @@ async function getInfo() {
   console.log(peers);
 
 
-  const { transferTx, transferRx, users } = peers.reduce(async (acc, { key, peer, user }) => {
+  const data = peers.reduce(async (acc, { key, peer, user }) => {
     const lastUserTx = user ? user?.transferTx : 0;
     const lastUserRx = user ? user?.transferRx : 0;
     const lastUserTotalTx = user ? user?.totalTx : 0;
@@ -81,11 +81,12 @@ async function getInfo() {
   const res = {
     date: currentDate,
     count: filtered.length,
-    transferTx,
+    transferTx: data.transferTx,
+    transferRx: data.transferRx,
     transferRx,
     totalTX,
     totalRX,
-    users,
+    users: data.users,
   };
   return res;
   // onlineInfo.create(res);
