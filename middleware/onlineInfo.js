@@ -33,7 +33,7 @@ async function getInfo() {
 
 
   const { transferTx, transferRx, users } = await Promise.resolve(filtered.reduce(async (acc, cur) => {
-    const user = await Promise.resolve(UserTelegram.findOne({ history: { "$in" : ['+gRXbPrlRz7WfdEbjT5PAynd+xtxUdj9f8MNfg0kklw=']} }));
+    const user = await Promise.resolve(UserTelegram.findOne({ history: { "$in" : [cur.publicKey]} }));
     user.totalTx = getTotalTransfer(cur.transferTx, user.transferTx, user.totalTx)
     user.totalRx = getTotalTransfer(cur.transferRx, user.transferRx, user.totalRx)
     user.transferTx = cur.transferTx;
