@@ -74,14 +74,10 @@ const getOnlineInfo = async (ctx) => {
   ctx.reply(data);
 }
 
-const on = async (ctx) => {
-  const data = await getInfo();
-  ctx.reply(data);
-}
-
 module.exports = {
   get,
-  on, off,
+  on,
+  off,
   show,
   start,
   create,
