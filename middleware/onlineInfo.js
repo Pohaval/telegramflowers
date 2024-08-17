@@ -32,18 +32,18 @@ async function getInfo() {
   const lastTransferTx = lastInfo?.transferTx || 0;
 
 
-  const { transferTx, transferRx, users } = await Promise.resolve(filtered.reduce(async (acc, cur) => {
-    const [user] = await Promise.resolve(UserTelegram.find({ history: { "$in" : [cur.publicKey]} }));
-    console.log(cur);
-    user.totalTx = getTotalTransfer(cur.transferTx || 0, user.transferTx || 0, user.totalTx || 0)
-    user.totalRx = getTotalTransfer(cur.transferRx || 0, user.transferRx || 0, user.totalRx || 0)
-    user.transferTx = cur.transferTx;
-    user.transferRx = cur.transferRx;
-    user.lastDayGet = cur.latestHandshake;
+  const { transferTx, transferRx, users } = await Promise.resolve(filtered.reduce(async (acc, {key, peer }) => {
+    const [user] = await Promise.resolve(UserTelegram.find({ history: { "$in" : [key]} }));
+    console.log(peer);
+    user.totalTx = getTotalTransfer(peer.transferTx || 0, user.transferTx || 0, user.totalTx || 0)
+    user.totalRx = getTotalTransfer(peer.transferRx || 0, user.transferRx || 0, user.totalRx || 0)
+    user.transferTx = peer.transferTx;
+    user.transferRx = peer.transferRx;
+    user.lastDayGet = peer.latestHandshake;
     // user.save;
     return {
-      transferTx: acc.tx + cur.transferTx,
-      transferRx: acc.rx + cur.transferRx,
+      transferTx: acc.tx + peer.transferTx,
+      transferRx: acc.rx + peer.transferRx,
       users: [
         ...acc.users,
         {
@@ -53,9 +53,9 @@ async function getInfo() {
               name: user.name,
             },
           } : {},
-          key: cur.publicKey,
-          transferTx: cur.transferTx,
-          transferRx: cur.transferRx,
+          key: peer.publicKey,
+          transferTx: peer.transferTx,
+          transferRx: peer.transferRx,
         },
       ],
     };
