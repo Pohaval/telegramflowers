@@ -8,7 +8,7 @@ const { UserTelegram } = require('../../models/userTelegram');
 const bot = new Bot(process.env.BOT_ID);
 
 async function func() {
-  const users = await UserTelegram.find(['+gRXbPrlRz7WfdEbjT5PAynd+xtxUdj9f8MNfg0kklw='])
+  const users = await UserTelegram.find({ history: ['+gRXbPrlRz7WfdEbjT5PAynd+xtxUdj9f8MNfg0kklw='] })
   bot.api.sendMessage(admin, users);
 };
 func();
