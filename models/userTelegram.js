@@ -9,6 +9,8 @@ const UserTelegram = new Schema({
   lastDayGet: Number,
   todayCount: Number,
   history: Array,
+  RX: Number,
+  TX: Number,
 });
 
 module.exports = {

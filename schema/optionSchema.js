@@ -33,20 +33,18 @@ const bookQueryFields = {
 };
 
 const bookMutationFields = {
-  // addOption:{
-  //   type: BooOptionTypekType,
-  //   args: {
-  //       name: { type: new GraphQLNonNull(GraphQLString)},
-  //       pages: { type: new GraphQLNonNull(GraphQLInt)},
-  //   },
-  //   resolve(parent,args) {
-  //       let book = new Options({
-  //           name:args.name,
-  //           pages:args.pages,
-  //       })
-  //       return book.save()
-  //   }
-  // }
+  addOption:{
+    type: OptionType,
+    args: {
+      canCreateNewConfig: { type: new GraphQLNonNull(GraphQLBoolean)},
+    },
+    resolve(parent,args) {
+        let book = new Options({
+          canCreateNewConfig:args.canCreateNewConfig,
+        })
+        return book.save()
+    }
+  }
 };
 
 module.exports = {

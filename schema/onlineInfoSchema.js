@@ -28,6 +28,18 @@ const userQueryFields = {
 };
 
 const userMutationFields = {
+  addOption:{
+    type: OnlineInfoType,
+    args: {
+        name: { type: new GraphQLNonNull(GraphQLString)},
+    },
+    resolve(parent,args) {
+        let book = new Options({
+            name:args.name,
+        })
+        return book.save()
+    }
+  }
 };
 
 module.exports = {

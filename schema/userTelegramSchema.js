@@ -3,6 +3,7 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLNumber,
+  GraphQLNonNull,
   GraphQLID,
   GraphQLInt,
   GraphQLArray,
@@ -37,6 +38,20 @@ const userQueryFields = {
 };
 
 const userMutationFields = {
+  addOption:{
+    type: UserType,
+    args: {
+        name: { type: new GraphQLNonNull(GraphQLString)},
+        // pages: { type: new GraphQLNonNull(GraphQLInt)},
+    },
+    resolve(parent,args) {
+        let book = new Options({
+            name:args.name,
+            // pages:args.pages,
+        })
+        return book.save()
+    }
+  }
 };
 
 module.exports = {
