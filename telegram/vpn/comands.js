@@ -4,6 +4,7 @@ const { InputFile } = require("grammy");
 const { getRandomPrediction, todayChecker } = require('../../middleware/prediction');
 const { createNewClient, checkOnline, wgShow } = require('../../middleware/vpn');
 const { checkUser, getUsers } = require('../../middleware/user');
+const { getInfo } = require('../../middleware/onlineInfo');
 const Option = require('../../models/options');
 
 
