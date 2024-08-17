@@ -85,7 +85,7 @@ const getOnlineInfo = async (ctx) => {
     const result = formatDistance(new Date(latestHandshake * 1000), new Date(), {
       addSuffix: true
     })
-    return `${name || key}\r\n ${result}\r\n RX: ${transferRx / 1024}КБ\r\n TX:${transferTx / 1024}КБ`
+    return `${name || key}\r\n ${result}\r\n RX: ${transferRx / (1024 * 1024)}КБ\r\n TX:${transferTx / (1024 * 1024)}КБ`
   });
   ctx.reply(`Всего: ${count};\r\n TX: ${totalTX}; \r\n RX: ${totalRX}; \r\n\r\n ${usersRes.join('\r\n\r\n')}`);
 }

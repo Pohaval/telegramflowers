@@ -55,8 +55,8 @@ async function getInfo() {
     user.lastDayGet = peer.latestHandshake;
     // user.save;
     return {
-      transferTx: acc.tx + peer.transferTx,
-      transferRx: acc.rx + peer.transferRx,
+      transferTx: acc.transferTx + peer.transferTx,
+      transferRx: acc.transferRx + peer.transferRx,
       users: [
         ...acc.users,
         {
