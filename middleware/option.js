@@ -1,4 +1,5 @@
-
+require("dotenv").config();
+const admin = process.env.ADMIN_ID;
 async function on(ctx) {
   if (Number(ctx.message.from.id) === Number(admin)) {
     const option = await Option.findOne();
