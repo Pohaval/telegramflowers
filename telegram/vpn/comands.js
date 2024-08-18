@@ -90,7 +90,7 @@ const getOnlineInfo = async (ctx) => {
     })
     return `${user ? user.name : key}\r\n ${result}\r\n RX: ${(transferRx / (1024 * 1024)).toFixed(2)} МБ \r\n TX: ${(transferTx / (1024 * 1024)).toFixed(2)} МБ`
   });
-  ctx.reply(`Всего: ${count};\r\n RX: ${(totalRX / (1024 * 1024)).toFixed(2)};\r\n TX: ${(totalTX / (1024 * 1024)).toFixed(2)};  \r\n\r\n ${usersRes.join('\r\n\r\n')}`);
+  ctx.reply(`Всего: ${count};\r\n RX: ${(totalRX / (1024 * 1024)).toFixed(2)} МБ;\r\n TX: ${(totalTX / (1024 * 1024)).toFixed(2)} МБ;  \r\n\r\n ${usersRes.join('\r\n\r\n')}`);
 }
 
 module.exports = {

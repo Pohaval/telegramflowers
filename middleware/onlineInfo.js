@@ -48,12 +48,14 @@ async function getInfo() {
     const lastUserRx = user ? user?.transferRx : 0;
     const lastUserTotalTx = user ? user?.totalTx : 0;
     const lastUserTotalRx = user ? user?.totalRx : 0;
-    user.totalTx = getTotalTransfer(peer.transferTx || 0, lastUserTx, lastUserTotalTx)
-    user.totalRx = getTotalTransfer(peer.transferRx || 0, lastUserRx || lastUserTotalRx)
+    const userTotalTx = getTotalTransfer(peer.transferTx || 0, lastUserTx, lastUserTotalTx);
+    const userTotalRx = getTotalTransfer(peer.transferTx || 0, lastUserRx, lastUserTotalRx);
+    user.totalTx = userTotalTx;
+    user.totalRx = userTotalRx;
     user.transferTx = peer.transferTx;
     user.transferRx = peer.transferRx;
     user.lastDayGet = peer.latestHandshake;
-    // user.save;
+    // user.save();
     return {
       transferTx: acc.transferTx + peer.transferTx,
       transferRx: acc.transferRx + peer.transferRx,
@@ -66,8 +68,8 @@ async function getInfo() {
               name: user.name,
             },
           } : {},
-          transferTx: peer.transferTx,
-          transferRx: peer.transferRx,
+          transferTx: userTotalTx,
+          transferRx: userTotalRx,
           latestHandshake: peer.latestHandshake,
           key,
         },

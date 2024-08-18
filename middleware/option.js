@@ -1,6 +1,6 @@
 
 async function on(ctx) {
-  if (ctx.message.from.id === admin) {
+  if (Number(ctx.message.from.id) === Number(admin)) {
     const option = await Option.findOne();
     option.canCreateNewConfig = true;
     option.save();
@@ -8,7 +8,7 @@ async function on(ctx) {
    }
 };
 async function off(ctx) {
-  if (ctx.message.from.id === admin) {
+  if (Number(ctx.message.from.id) === Number(admin)) {
     const option = await Option.findOne();
     option.canCreateNewConfig = false;
     option.save();
