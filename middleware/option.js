@@ -1,4 +1,5 @@
 require("dotenv").config();
+const Option = require("../models/options");
 const admin = process.env.ADMIN_ID;
 async function on(ctx) {
   if (Number(ctx.message.from.id) === Number(admin)) {
