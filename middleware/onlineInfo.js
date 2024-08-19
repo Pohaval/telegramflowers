@@ -44,10 +44,10 @@ async function getInfo() {
 
 
   const resData = peers.reduce((acc, { key, peer, user }) => {
-    const lastUserTx = user.id ? user?.transferTx : 0;
-    const lastUserRx = user.id ? user?.transferRx : 0;
-    const lastUserTotalTx = user.id ? user?.totalTx : 0;
-    const lastUserTotalRx = user.id ? user?.totalRx : 0;
+    const lastUserTx = user?.transferTx || 0;
+    const lastUserRx = user?.transferRx || 0;
+    const lastUserTotalTx = user?.totalTx || 0;
+    const lastUserTotalRx = user?.totalRx || 0;
     const userTotalTx = getTotalTransfer(peer.transferTx || 0, lastUserTx, lastUserTotalTx);
     const userTotalRx = getTotalTransfer(peer.transferTx || 0, lastUserRx, lastUserTotalRx);
     user.totalTx = userTotalTx;
