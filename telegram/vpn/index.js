@@ -1,33 +1,39 @@
-require("dotenv").config();
 const { Bot } = require("grammy");
-const commands = require('./comands');
-const menus = require('./menus');
-const admin = process.env.ADMIN_ID;
+const { hydrate } = require("@grammyjs/hydrate");
+
+const initMenus = require('./modules/menus');
+const initCommands = require('./modules/commands');
+const initListeners = require('./modules/listeners');
+const initCallbacks = require('./modules/callbacks');
 
 const bot = new Bot(process.env.BOT_ID);
 
-bot.use(menus.getTunnel);
-bot.command("start", (ctx) => commands.start(ctx, menus.getTunnel));
-bot.command("get", commands.get);
-bot.command("create", async (ctx) => {
-  const data = await commands.create(ctx);
-  bot.api.sendMessage(admin, data || 'no_user');
-});
-bot.command("checkOnline", commands.onlineCheck);
-bot.command("show", commands.show);
-bot.command("off", commands.off);
-bot.command("on", commands.on);
-bot.command("onlineInfo", commands.getOnlineInfo);
+bot.use(hydrate());
 
+initMenus(bot, __dirname);
+initCommands(bot, __dirname);
+initListeners(bot, __dirname);
+initCallbacks(bot, __dirname);
 
 bot.api.setMyCommands([
   { command: "start", description: "Start the bot" },
   { command: "create", description: "Create vpn tunnel" },
+  { command: "donate", description: "Donation" },
 ]);
+
+// bot.catch((err) => {
+//   const ctx = err.ctx;
+//   console.error(`Error while handling update ${ctx.update.update_id}:`);
+//   console.log(err);
+//   const e = err.error;
+//   if (e instanceof GrammyError) {
+//     console.error("Error in request:", e.description);
+//   } else if (e instanceof HttpError) {
+//     console.error("Could not contact Telegram:", e);
+//   } else {
+//     console.error("Unknown error:", e);
+//   }
+// });
 
 module.exports = { bot };
 
-// const app = require('wireguard-rest');
-// app.listen(1234, function(){
-//     console.log(`Wireguard API listening on port 1234`);
-// });

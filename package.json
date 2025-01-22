@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/Pohaval/telegramflowers.git"
   },
+  "imports": {
+    "#app/*": "./*"
+  },
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -18,6 +21,7 @@
   },
   "homepage": "https://github.com/Pohaval/telegramflowers#readme",
   "dependencies": {
+    "@grammyjs/hydrate": "^1.4.1",
     "@grammyjs/menu": "^1.2.1",
     "bcryptjs": "^2.4.3",
     "date-fns": "^2.30.0",

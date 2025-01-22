@@ -9,7 +9,7 @@ const { graphqlHTTP } = require('express-graphql');
 const schema = require('./schema/index')
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/telegramflowers')
+mongoose.connect('mongodb://localhost:27017/telegramflower')
 mongoose.connection.once('open', () => {
     console.log('conneted to database');
 });
