@@ -9,6 +9,7 @@ const UserTelegram = new Schema({
   lastDayGet: Number,
   todayCount: Number,
   history: Array,
+  payments: Array,
   transferRx: Number,
   transferTx: Number,
   totalTx: Number,

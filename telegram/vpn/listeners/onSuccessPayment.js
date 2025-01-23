@@ -9,7 +9,8 @@ module.exports = {
     return;
   }
   const user = await checkUser(ctx?.update?.message?.from || ctx?.message?.from);
-  user.history.push(ctx.message.successful_payment);
+  if (user?.payments) user.payments.push(ctx.message.successful_payment);
+  else user.payments = [ctx.message.successful_payment]
   user.save();
 
   ctx.reply('🥳 Спасибо за пожертвования! 🫶');
