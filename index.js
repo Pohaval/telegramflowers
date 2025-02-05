@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const { graphqlHTTP } = require('express-graphql');
 
 const schema = require('./schema/index')
-const setIntervalGetInfo = require('./middleware/onlineInfo');
+const { setIntervalGetInfo } = require('./middleware/onlineInfo');
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/telegramflowers')
