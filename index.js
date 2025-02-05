@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const { graphqlHTTP } = require('express-graphql');
 
 const schema = require('./schema/index')
+const setIntervalGetInfo = require('./middleware/onlineInfo');
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/telegramflowers')
@@ -26,6 +27,8 @@ app.use('/graphql', graphqlHTTP({
     schema,
     graphiql: true,
 }));
+
+setIntervalGetInfo()
 // app.use("*", (req, res) => {
 //   res.status(404).json({
 //     success: "false",
