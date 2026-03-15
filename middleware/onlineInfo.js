@@ -1,14 +1,21 @@
 const { UserTelegram } = require('../models/userTelegram');
 const onlineInfo = require('../models/onlineInfo');
 const vpn = require('./vpn');
-const { isWithinInterval } = require('date-fns');
 
 let interval;
 
 function setIntervalGetInfo() {
   const minutes = 5;
   const the_interval = minutes * 60 * 1000;
-  interval = setInterval(getInfo, the_interval);
+  if (interval) {
+    clearInterval(interval);
+  }
+
+  interval = setInterval(() => {
+    getInfo({ persist: true, saveHistory: true }).catch((error) => {
+      console.error('Failed to update online info', error);
+    });
+  }, the_interval);
 };
 
 function getTotalTransfer(transfer, lastTransfer, lastTotal) {
@@ -16,17 +23,11 @@ function getTotalTransfer(transfer, lastTransfer, lastTotal) {
  return lastTotal + difference;
 }
 
-async function getInfo() {
+async function getInfo({ persist = false, saveHistory = false } = {}) {
   const currentDate = new Date();
   const data = await vpn.wgShow();
-  // const filtered = data.filter(({ peer }) => {
-  //   const aFiveMinuteAgo = new Date(Date.now() - 1000 * 60 * 5);
-  //   return isWithinInterval(new Date(peer.latestHandshake * 1000), {
-  //     start: aFiveMinuteAgo,
-  //     end: currentDate,
-  //   })
-  // });
-  const lastInfo = await onlineInfo.findOne({}, {}, { sort: { 'created_at' : -1 } })
+
+  const lastInfo = await onlineInfo.findOne().sort({ date: -1 });
   const lastTotalRx = lastInfo?.totalRx || 0;
   const lastTotalTx = lastInfo?.totalTx || 0;
   const lastTransferRx = lastInfo?.transferRx || 0;
@@ -41,8 +42,7 @@ async function getInfo() {
   });
 
   const peers = await Promise.all(promises);
-  console.log(peers);
-
+  const usersToSave = [];
 
   const resData = peers.reduce((acc, { key, peer, user }) => {
     const lastUserTx = user?.transferTx || 0;
@@ -50,27 +50,36 @@ async function getInfo() {
     const lastUserTotalTx = user?.totalTx || 0;
     const lastUserTotalRx = user?.totalRx || 0;
     const userTotalTx = getTotalTransfer(peer.transferTx || 0, lastUserTx, lastUserTotalTx);
-    const userTotalRx = getTotalTransfer(peer.transferTx || 0, lastUserRx, lastUserTotalRx);
-    user.totalTx = userTotalTx;
-    user.totalRx = userTotalRx;
-    user.transferTx = peer.transferTx;
-    user.transferRx = peer.transferRx;
-    user.lastDayGet = peer.latestHandshake;
-    // user.save();
+    const userTotalRx = getTotalTransfer(peer.transferRx || 0, lastUserRx, lastUserTotalRx);
+
+    if (user?._id) {
+      user.totalTx = userTotalTx;
+      user.totalRx = userTotalRx;
+      user.transferTx = peer.transferTx || 0;
+      user.transferRx = peer.transferRx || 0;
+      user.lastDayGet = peer.latestHandshake;
+
+      if (persist) {
+        usersToSave.push(user.save());
+      }
+    }
+
     return {
-      transferTx: acc.transferTx + peer.transferTx,
-      transferRx: acc.transferRx + peer.transferRx,
+      transferTx: acc.transferTx + (peer.transferTx || 0),
+      transferRx: acc.transferRx + (peer.transferRx || 0),
       users: [
         ...acc.users,
         {
-          ...user.id ? {
+          ...(user?._id ? {
             user: {
               id: user.id,
               name: user.name,
             },
-          } : {},
-          transferTx: userTotalTx,
-          transferRx: userTotalRx,
+          } : {}),
+          transferTx: peer.transferTx || 0,
+          transferRx: peer.transferRx || 0,
+          totalTx: userTotalTx,
+          totalRx: userTotalRx,
           latestHandshake: peer.latestHandshake,
           key,
         },
@@ -87,12 +96,20 @@ async function getInfo() {
     count: data.length,
     transferTx: resData.transferTx,
     transferRx: resData.transferRx,
-    totalTX,
-    totalRX,
+    totalTx: totalTX,
+    totalRx: totalRX,
     users: resData.users,
   };
+
+  if (persist) {
+    await Promise.all(usersToSave);
+  }
+
+  if (saveHistory) {
+    await onlineInfo.create(res);
+  }
+
   return res;
-  // onlineInfo.create(res);
 };
 
 module.exports = {
