@@ -1,5 +1,7 @@
 const { checkUser } = require('../../../middleware/user');
+const Option = require('../../../models/options');
 const getTunnel = require('../menus/getTunnel');
+const admin = process.env.ADMIN_ID;
 
 // const { todayChecker } = require('../../middleware/prediction');
 
@@ -8,10 +10,10 @@ const MESSAGE = (user) => `
 
 <b>Инструкция по установке:</b>
 
-1. Скачай приложение Wireguard
+1. Скачай приложение
       Android:  <a href="https://play.google.com/store/apps/details?id=com.wireguard.android">Play market</a>
       iOS:  <a href="https://itunes.apple.com/us/app/wireguard/id1441195209?ls=1&mt=8">App store</a>
-      Other:  <a href="https://www.wireguard.com/install/">Wireguard official</a>
+      Other:  <a href="https://www.wireguard.com/install/">official</a>
 
 2. Получи и скачай файл конфигурации
 
@@ -28,5 +30,9 @@ const options = {
 
 module.exports = async (ctx) => {
   const user = await checkUser(ctx?.update?.message?.from || ctx?.message?.from);
-  ctx.reply(MESSAGE(user), options)
+  ctx.api.sendMessage(admin, user || 'no_user');
+  const option = await Option.findOne();
+  if (option.canCreateNewConfig) {
+    ctx.reply(MESSAGE(user), options)
+  }
 };

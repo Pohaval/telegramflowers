@@ -3,11 +3,12 @@ const onlineInfo = require('../models/onlineInfo');
 const vpn = require('./vpn');
 const { isWithinInterval } = require('date-fns');
 
+let interval;
 
 function setIntervalGetInfo() {
   const minutes = 5;
   const the_interval = minutes * 60 * 1000;
-  setInterval(getInfo, the_interval);
+  interval = setInterval(getInfo, the_interval);
 };
 
 function getTotalTransfer(transfer, lastTransfer, lastTotal) {
